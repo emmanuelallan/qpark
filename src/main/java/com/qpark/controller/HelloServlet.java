@@ -1,4 +1,4 @@
-package com.qpark.controllers;
+package com.qpark.controller;
 
 import java.io.*;
 

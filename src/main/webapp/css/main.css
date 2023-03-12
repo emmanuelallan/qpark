@@ -1,0 +1,143 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+body {
+  background-color: #f7f6f9;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #0c125d;
+  line-height: 1.5;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-light {
+  border-bottom: 1px solid #e4e6e5;
+  background: #ffffff;
+}
+
+.navbar {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+@media (min-width: 1200px) {
+  .navbar-brand-item {
+    height: 40px;
+    display: block;
+    width: auto;
+  }
+}
+
+.navbar-brand {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-right: 1rem;
+}
+
+main {
+  min-height: calc(100vh - 235px);
+}
+
+.bg-dim {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.hero {
+  background-image: url("../images/hero.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.pt-7 {
+  padding-top: 4rem;
+}
+
+.pb-9 {
+  padding-bottom: 11rem;
+}
+
+h1 {
+  font-size: calc(1.475rem + 2.7vw);
+  font-weight: 700;
+  line-height: 1.25;
+}
+@media (min-width: 1200px) {
+  h1 {
+    font-size: 3.5rem;
+  }
+}
+
+.lead {
+  font-weight: 400;
+}
+
+.pb-8 {
+  padding-bottom: 2.8rem;
+}
+
+h2 {
+  font-weight: 700;
+  line-height: 1.25;
+  font-family: "Inter", sans-serif;
+}
+
+.card.overflow-hidden {
+  will-change: transform;
+}
+
+.card {
+  border-radius: 1rem;
+  border: 1px solid #e4e6e5;
+}
+
+.card-img-scale-wrapper {
+  transform: translateZ(0);
+  position: relative;
+  overflow: hidden;
+}
+
+.rounded-3 {
+  border-radius: 1rem;
+}
+
+.card.card-img-scale img {
+  transition: all 0.5s ease;
+  transform: scale(1.001);
+}
+
+.card-img, .card-img-bottom {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.card-img, .card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+.p-4 {
+  padding: 1.6rem;
+}
+
+.z-index-1 {
+  z-index: 1;
+}
+
+.card-img-overlay {
+  padding: 1.25rem;
+  border-radius: 1rem;
+}
+
+footer {
+  background-color: #f7f6f9;
+  border-top: 1px solid #e4e6e5;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  font-weight: bold;
+}/*# sourceMappingURL=main.css.map */
