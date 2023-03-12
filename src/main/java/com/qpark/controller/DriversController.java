@@ -24,9 +24,9 @@ public class DriversController extends HttpServlet {
             driverDAO = new DriverDAO(connection);
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
         }
-
-
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,7 +36,7 @@ public class DriversController extends HttpServlet {
                 case "/add":
                     addDriver(request, response);
                     break;
-                case "/edit":
+                case "/update":
                     editDriver(request, response);
                     break;
                 case "/delete":
@@ -107,7 +107,7 @@ public class DriversController extends HttpServlet {
         String phone = request.getParameter("phone");
         String drivingLicence = request.getParameter("drivingLicence");
         String otp = request.getParameter("otp");
-        Driver newDriver = new Driver(name, avatar, email, phone, drivingLicence, otp);
+        Driver newDriver = new Driver(1, name, avatar, email, phone, drivingLicence, otp);
         driverDAO.create(newDriver);
         response.sendRedirect("list");
     }
@@ -121,7 +121,7 @@ public class DriversController extends HttpServlet {
         String drivingLicence = request.getParameter("drivingLicence");
         String otp = request.getParameter("otp");
 
-        Driver driverToUpdate = new Driver(name, avatar, email, phone, drivingLicence, otp);
+        Driver driverToUpdate = new Driver(id, name, avatar, email, phone, drivingLicence, otp);
         driverDAO.update(driverToUpdate);
         response.sendRedirect("list");
     }

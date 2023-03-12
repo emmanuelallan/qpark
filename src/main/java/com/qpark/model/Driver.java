@@ -1,6 +1,7 @@
 package com.qpark.model;
 
 public class Driver {
+    private int id;
     private String name;
     private String avatar;
     private String email;
@@ -8,7 +9,8 @@ public class Driver {
     private String drivingLicence;
     private String otp;
 
-    public Driver(String name, String avatar, String email, String phone, String drivingLicence, String otp) {
+    public Driver(int id, String name, String avatar, String email, String phone, String drivingLicence, String otp) {
+        this.id = id;
         this.name = name;
         this.avatar = avatar;
         this.email = email;
@@ -18,6 +20,10 @@ public class Driver {
     }
 
     // Getters and setters
+    public int getId(){ return id; }
+
+    public void setId(int id) { this.id = id; }
+
     public String getName() {
         return name;
     }

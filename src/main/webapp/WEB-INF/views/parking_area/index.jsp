@@ -48,7 +48,7 @@
         <div class="col-sm-6 col-xl-3">
           <div class="card card-img-scale overflow-hidden bg-transparent">
             <div class="card-img-scale-wrapper rounded-3">
-              <img src="#" class="card-img" alt="">
+              <img src="${pageContext.request.contextPath}/images/test.jpg" class="card-img" alt="">
               <div class="card-img-overlay d-flex flex-column z-index-1 p-4">
                 <!-- Card overlay top -->
                 <div class="d-flex justify-content-between">

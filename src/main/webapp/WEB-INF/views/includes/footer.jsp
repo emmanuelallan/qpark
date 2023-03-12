@@ -28,6 +28,6 @@
   ></script>
 
   <!-- custom js -->
-  <script src="../../../js/main.js"></script>
+  <script src="${pageContext.request.contextPath}/js/main.js"></script>
 </body>
 </html>

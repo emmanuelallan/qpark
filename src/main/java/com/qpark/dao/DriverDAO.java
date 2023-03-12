@@ -34,7 +34,7 @@ public class DriverDAO {
         statement.setString(4, driver.getPhone());
         statement.setString(5, driver.getDrivingLicence());
         statement.setString(6, driver.getOtp());
-        statement.setInt(7, driver.id);
+        statement.setInt(7, driver.getId());
         statement.executeUpdate();
         statement.close();
     }
@@ -82,7 +82,7 @@ public class DriverDAO {
                     resultSet.getString("email"),
                     resultSet.getString("phone"),
                     resultSet.getString("driving_licence"),
-                    resultSet.getString("password")
+                    resultSet.getString("otp")
             );
             drivers.add(driver);
         }

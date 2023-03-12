@@ -28,7 +28,7 @@
     />
 
     <!-- custom css -->
-    <link rel="stylesheet" href="../../../css/main.css" />
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/main.css" />
 </head>
 <body>
 <%-- nabar start --%>
@@ -39,7 +39,7 @@
                 <a class="navbar-brand" href="${pageContext.request.contextPath}/">
                     <img
                             class="navbar-brand-item"
-                            src="../../../images/logo.svg"
+                            src="${pageContext.request.contextPath}/images/logo.svg"
                             alt="logo"
                     />
                 </a>
