@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="currentURL" value="<c:url value='${pageContext.request.requestURL}'/>"/>
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
     <head>
@@ -62,28 +64,28 @@
                 <div class="collapse navbar-collapse" id="sidebarCollapse">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/admin">
+                            <a class="nav-link ${currentURL.contains('admin') ? 'active' : ''}" href="${pageContext.request.contextPath}/admin">
                                 <i class="bi bi-kanban"></i>
                                 Dashboard
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/drivers">
+                            <a class="nav-link ${currentURL.contains('drivers') ? 'active' : ''}" href="${pageContext.request.contextPath}/drivers">
                                 <i class="bi bi-person-bounding-box"></i>
                                 Drivers
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="${pageContext.request.contextPath}/booking">
+                            <a class="nav-link ${currentURL.contains('booking') ? 'active' : ''}" href="${pageContext.request.contextPath}/booking">
                                 <i class="bi bi-ticket-perforated"></i>
                                 Bookings
                             </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link active" href="${pageContext.request.contextPath}/parking_area">
+                            <a class="nav-link ${currentURL.contains('parking_area') ? 'active' : ''}" href="${pageContext.request.contextPath}/parking_area">
                                 <i class="bi bi-truck-front"></i>
                                 Parking Areas
                             </a>
@@ -98,7 +100,7 @@
                         >
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link py-2" href="${pageContext.request.contextPath}/setting">
+                            <a class="nav-link py-2 ${currentURL.contains('settings') ? 'active' : ''}" href="${pageContext.request.contextPath}/setting">
                                 <i class="bi bi-gear"></i>
                                 Settings
                             </a>
