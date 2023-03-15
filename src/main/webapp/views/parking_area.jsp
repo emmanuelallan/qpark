@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
@@ -54,78 +55,50 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>
-              <img
-                      alt="..."
-                      src="${pageContext.request.contextPath}/images/parking.jpg"
-                      class="avatar avatar-sm rounded-circle me-2"
-              />
-              <a class="text-heading font-semibold" href="#"
-              >Gate E. Student Center</a
-              >
-            </td>
-            <td>100</td>
-            <td>Chuka University</td>
-            <td>
-              Ksh. 200 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>
-                        <span class="badge badge-lg badge-dot">
-                          <i class="bg-success"></i>
-                          Open
-                        </span>
-            </td>
-            <td>
-              Ksh. 500 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>6:00 AM</td>
-            <td>6:00 PM</td>
-            <td>
-              <button class="btn btn-sm btn-outline-dark">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                      alt="..."
-                      src="${pageContext.request.contextPath}/images/parking.jpg"
-                      class="avatar avatar-sm rounded-circle me-2"
-              />
-              <a class="text-heading font-semibold" href="#"
-              >Gate A. Bussines Center</a
-              >
-            </td>
-            <td>50</td>
-            <td>Chuka University</td>
-            <td>
-              Ksh. 200 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>
-                        <span class="badge badge-lg badge-dot">
-                          <i class="bg-warning"></i>
-                          Full
-                        </span>
-            </td>
-            <td>
-              Ksh. 500 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>6:00 AM</td>
-            <td>6:00 PM</td>
-            <td>
-              <button class="btn btn-sm btn-outline-dark">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
+          <c:if test="${parkingAreasList != null}">
+            <c:forEach var="parkingArea" items="${parkingAreasList}">
+              <tr>
+                <td>
+                  <img
+                          alt="..."
+                          src="${pageContext.request.contextPath}/uploads/${parkingArea.image}"
+                          class="avatar avatar-sm rounded-circle me-2"
+                  />
+                  <a class="text-heading font-semibold" href="#">${parkingArea.name}</a>
+                </td>
+                <td>${parkingArea.capacity}</td>
+                <td>${parkingArea.location}</td>
+                <td>Ksh. ${parkingArea.price}<span class="text-xs text-muted">/ Hour</span></td>
+                <td>
+                  <c:choose>
+                    <c:when test="${parkingArea.status eq 'Open'}">
+          <span class="badge badge-lg badge-dot">
+            <i class="bg-success"></i>
+            ${parkingArea.status}
+          </span>
+                    </c:when>
+                    <c:otherwise>
+          <span class="badge badge-lg badge-dot">
+            <i class="bg-danger"></i>
+            ${parkingArea.status}
+          </span>
+                    </c:otherwise>
+                  </c:choose>
+                </td>
+                <td>Ksh. ${parkingArea.fine}<span class="text-sm text-muted">/ Hour</span></td>
+                <td>${parkingArea.openingTime}</td>
+                <td>${parkingArea.closingTime}</td>
+                <td>
+                  <button class="btn btn-sm btn-outline-dark">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </tr>
+            </c:forEach>
+          </c:if>
           </tbody>
         </table>
       </div>
