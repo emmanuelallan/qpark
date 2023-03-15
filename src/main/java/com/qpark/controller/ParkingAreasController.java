@@ -85,18 +85,18 @@ public class ParkingAreasController extends HttpServlet {
     private void listParkingAreas(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<ParkingArea> parkingAreasList = parkingAreaDAO.findAll();
         request.setAttribute("parkingAreasList", parkingAreasList);
-        request.getRequestDispatcher("/views/parking_area/index.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/parking_area.jsp").forward(request, response);
     }
 
     private void viewParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int parkingAreaId = Integer.parseInt(request.getParameter("id"));
-        ParkingArea parkingArea = parkingAreaDAO.findById(parkingAreaId);
+        ParkingArea parkingArea = parkingAreaDAO.findById(1);
         request.setAttribute("parkingArea", parkingArea);
-        request.getRequestDispatcher("/views/parking_area/show.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/parking_slot.jsp").forward(request, response);
     }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/views/parking_area/new.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/add_parking_area.jsp").forward(request, response);
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {

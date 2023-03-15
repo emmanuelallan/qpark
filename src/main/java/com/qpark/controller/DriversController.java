@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "DriversController", value = "/drivers")
+@WebServlet(name = "DriversController", value = "/drivers/*")
 public class DriversController extends HttpServlet {
     private DriverDAO driverDAO;
 
@@ -54,22 +54,26 @@ public class DriversController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
         try {
-            switch (action) {
-                case "/list":
-                    listDrivers(request, response);
-                    break;
-                case "/view":
-                    viewDriver(request, response);
-                    break;
-                case "/new":
-                    showNewForm(request, response);
-                    break;
-                case "/edit":
-                    showEditForm(request, response);
-                    break;
-                default:
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-                    break;
+            if(action == null){
+                listDrivers(request, response);
+            }else{
+                switch (action) {
+                    case "/":
+                        listDrivers(request, response);
+                        break;
+                    case "/view":
+                        viewDriver(request, response);
+                        break;
+                    case "/new":
+                        showNewForm(request, response);
+                        break;
+                    case "/edit":
+                        showEditForm(request, response);
+                        break;
+                    default:
+                        response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                        break;
+                }
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -79,7 +83,7 @@ public class DriversController extends HttpServlet {
     private void listDrivers(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         List<Driver> driversList = driverDAO.findAll();
         request.setAttribute("driversList", driversList);
-        request.getRequestDispatcher("/views/drivers/list.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/drivers.jsp").forward(request, response);
     }
 
     private void viewDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
