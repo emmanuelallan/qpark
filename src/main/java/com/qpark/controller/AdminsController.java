@@ -11,6 +11,7 @@ import java.io.IOException;
 @WebServlet(name = "AdminsController", value = "/admin")
 public class AdminsController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        test comment for git
         request.getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
     }
 }
