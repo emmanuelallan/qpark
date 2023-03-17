@@ -12,7 +12,7 @@
         <div class="card-body">
           <div class="row">
             <div class="col-12">
-              <c:if test="${not empty success}">
+              <c:if test="${success != null}">
                 <div class="alert alert-success" role="alert">
                   <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
@@ -111,7 +111,7 @@
                 </td>
                 <td>${parkingArea.capacity}</td>
                 <td>${parkingArea.location}</td>
-                <td>Ksh. ${parkingArea.price}<span class="text-xs text-muted">/ Hour</span></td>
+                <td>Ksh. ${parkingArea.price}<span class="text-xs text-muted">/hr</span></td>
                 <td>
                   <c:choose>
                     <c:when test="${parkingArea.status eq 'Open'}">
@@ -133,7 +133,7 @@
                 <td><fmt:formatDate value="${parkingArea.closingTime}" pattern="hh:mm a" /></td>
                 <td class="d-flex">
                   <a href="${pageContext.request.contextPath}/parking_area/edit?id=${parkingArea.id}"
-                     class="btn btn-sm btn-outline-dark">
+                     class="btn btn-sm btn-outline-dark me-1">
                     <i class="bi bi-pencil"></i>
                   </a>
                   <form action="${pageContext.request.contextPath}/parking_area/delete" method="post">

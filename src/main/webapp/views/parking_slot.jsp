@@ -1,3 +1,6 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -84,6 +87,19 @@
     </nav>
     <!-- header end -->
 
+    <c:if test="${parkingArea != null}">
+      <c:set var="id" value="${parkingArea.id}" />
+      <c:set var="name" value="${parkingArea.name}" />
+      <c:set var="status" value="${parkingArea.status}" />
+      <c:set var="location" value="${parkingArea.location}" />
+      <c:set var="price" value="${parkingArea.price}" />
+      <c:set var="fine" value="${parkingArea.fine}" />
+      <c:set var="capacity" value="${parkingArea.capacity}" />
+      <c:set var="openingTime" value="${parkingArea.openingTime}" />
+      <c:set var="closingTime" value="${parkingArea.closingTime}" />
+      <c:set var="image" value="${parkingArea.image}" />
+    </c:if>
+
     <!-- client header start -->
     <header class="bg-surface-secondary">
       <div class="container mt-8">
@@ -102,7 +118,7 @@
             </div>
           </div>
           <div class="col-sm-auto col-12 mt-4 mt-sm-0">
-            <h1 class="h2 ls-tight">Gate E. Student Center Slots</h1>
+            <h1 class="h2 ls-tight">${name}</h1>
           </div>
         </div>
       </div>
@@ -118,6 +134,11 @@
               <div class="card">
                 <div class="card-body">
                   <h5 class="mb-3">Select a parking slot</h5>
+                  <div class="row">
+                    <div class="col">
+                          <img src="${pageContext.request.contextPath}/uploads/${image}" alt="${name}" class="img-fluid rounded-3" />
+                    </div>
+                  </div>
                   <div class="row g-6">
                     <div
                             class="col-md-2 col-lg-2 col-4 mb-3 position-relative"
