@@ -1,9 +1,52 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
 <%-- main start --%>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <c:if test="${not empty success}">
+                <div class="alert alert-success" role="alert">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                      <p>
+                          ${success}
+                      </p>
+                    </div>
+                    <div class="flex-shrink-0 ms-3">
+                      <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+                    </div>
+                  </div>
+                </div>
+              </c:if>
+              <c:if test="${not empty error}">
+                <div class="alert alert-success" role="alert">
+                  <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                      <p>
+                          ${error}
+                      </p>
+                    </div>
+                    <div class="flex-shrink-0 ms-3">
+                      <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+                    </div>
+                  </div>
+                </div>
+              </c:if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- admin header start -->
 <header>
   <div class="container">
@@ -85,16 +128,20 @@
                     </c:otherwise>
                   </c:choose>
                 </td>
-                <td>Ksh. ${parkingArea.fine}<span class="text-sm text-muted">/ Hour</span></td>
-                <td>${parkingArea.openingTime}</td>
-                <td>${parkingArea.closingTime}</td>
-                <td>
-                  <button class="btn btn-sm btn-outline-dark">
+                <td>Ksh. ${parkingArea.fine}<span class="text-sm text-muted"></span></td>
+                <td><fmt:formatDate value="${parkingArea.openingTime}" pattern="hh:mm a" /></td>
+                <td><fmt:formatDate value="${parkingArea.closingTime}" pattern="hh:mm a" /></td>
+                <td class="d-flex">
+                  <a href="${pageContext.request.contextPath}/parking_area/edit?id=${parkingArea.id}"
+                     class="btn btn-sm btn-outline-dark">
                     <i class="bi bi-pencil"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger">
-                    <i class="bi bi-trash"></i>
-                  </button>
+                  </a>
+                  <form action="${pageContext.request.contextPath}/parking_area/delete" method="post">
+                      <input type="hidden" name="id" value="${parkingArea.id}">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
                 </td>
               </tr>
             </c:forEach>
