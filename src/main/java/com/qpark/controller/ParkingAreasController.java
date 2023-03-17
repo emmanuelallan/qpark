@@ -71,9 +71,6 @@ public class ParkingAreasController extends HttpServlet {
                     case "/":
                         listParkingAreas(request, response);
                         break;
-                    case "/view":
-                        viewParkingArea(request, response);
-                        break;
                     case "/new":
                         showNewForm(request, response);
                         break;
@@ -96,12 +93,6 @@ public class ParkingAreasController extends HttpServlet {
         request.getRequestDispatcher("/views/parking_area.jsp").forward(request, response);
     }
 
-    private void viewParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int parkingAreaId = Integer.parseInt(request.getParameter("id"));
-        ParkingArea parkingArea = parkingAreaDAO.findById(1);
-        request.setAttribute("parkingArea", parkingArea);
-        request.getRequestDispatcher("/views/parking_slot.jsp").forward(request, response);
-    }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/views/add_parking_area.jsp").forward(request, response);
