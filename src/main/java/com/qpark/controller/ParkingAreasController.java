@@ -126,8 +126,7 @@ public class ParkingAreasController extends HttpServlet {
         filePart.write(savePath);
         ParkingArea newParkingArea = new ParkingArea(1, capacity, image, location, price, name, status, fine, opening_time, closing_time);
         parkingAreaDAO.create(newParkingArea);
-        request.setAttribute("success", "Parking area added successfully");
-        response.sendRedirect(request.getContextPath() + "/parking_area");
+        response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=create");
     }
 
     private void editParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
@@ -159,14 +158,12 @@ public class ParkingAreasController extends HttpServlet {
 
         ParkingArea parkingAreaToUpdate = new ParkingArea(id, capacity, image, location, price, name, status, fine, opening_time, closing_time);
         parkingAreaDAO.update(parkingAreaToUpdate);
-        request.setAttribute("success", "Parking area updated successfully");
-        response.sendRedirect(request.getContextPath() + "/parking_area");
+        response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=update");
     }
 
     private void deleteParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         parkingAreaDAO.delete(id);
-        request.setAttribute("success", "Parking area deleted successfully");
-        response.sendRedirect(request.getContextPath() + "/parking_area");
+        response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=delete");
     }
 }

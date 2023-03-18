@@ -5,45 +5,28 @@
 <jsp:include page="/views/includes/navbar.jsp" />
 
 <%-- main start --%>
-<div class="container">
+<div class="container mt-5">
   <div class="row">
     <div class="col-12">
-      <div class="card">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-12">
-              <c:if test="${success != null}">
-                <div class="alert alert-success" role="alert">
-                  <div class="d-flex align-items-center">
+        <c:if test="${not empty param.success}">
+            <div class="alert alert-success" role="alert">
+                <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                      <p>
-                          ${success}
-                      </p>
+                        <p>
+                            ${
+                                param.success == 'create' ? 'Parking Area Created Successfully' :
+                                param.success == 'update' ? 'Parking Area Updated Successfully' :
+                                param.success == 'delete' ? 'Parking Area Deleted Successfully' :
+                                ''
+                            }
+                        </p>
                     </div>
                     <div class="flex-shrink-0 ms-3">
-                      <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+                        <i class="bi bi-check-circle-fill fs-2 text-success"></i>
                     </div>
-                  </div>
                 </div>
-              </c:if>
-              <c:if test="${not empty error}">
-                <div class="alert alert-success" role="alert">
-                  <div class="d-flex align-items-center">
-                    <div class="flex-grow-1">
-                      <p>
-                          ${error}
-                      </p>
-                    </div>
-                    <div class="flex-shrink-0 ms-3">
-                      <i class="bi bi-check-circle-fill fs-2 text-success"></i>
-                    </div>
-                  </div>
-                </div>
-              </c:if>
             </div>
-          </div>
-        </div>
-      </div>
+        </c:if>
     </div>
   </div>
 </div>
