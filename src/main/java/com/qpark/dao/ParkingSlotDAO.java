@@ -1,4 +1,5 @@
 package com.qpark.dao;
+import com.qpark.DatabaseConnection;
 import com.qpark.model.ParkingArea;
 import com.qpark.model.ParkingSlot;
 import java.sql.Connection;
@@ -8,10 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ParkingSlotDAO {
 	private final Connection connection;
-	public ParkingSlotDAO(Connection connection){
-		this.connection = connection;
+	public ParkingSlotDAO() throws SQLException, ClassNotFoundException {
+		connection = DatabaseConnection.getConnection();
 	}
 	
 	
@@ -28,12 +30,14 @@ public class ParkingSlotDAO {
 	    PreparedStatement statement = connection.prepareStatement(sql);
 	    
 	    for (ParkingSlot parkingSlot : parkingSlots) {
-	            statement.setInt(1, parkingSlot.getParkingAreaId());
+            	statement.setInt(1, parkingAreaId);
 	            statement.setString(2, parkingSlot.getSlotNumber());
 	            statement.setString(3, parkingSlot.getStatus());
 	            
 	            statement.executeUpdate();
 	    }
+	    
+	    System.out.println("PARKING SLOTS CREATED SUCCESSFULLY");
 	}
 	
 
@@ -68,10 +72,10 @@ public class ParkingSlotDAO {
 	}
 	
 	
-	//Get parkingslot by slotName
+	//Get parkingslot by slotId
 	ParkingSlot parkingSlot = null;
 	public ParkingSlot getParkingSlotById(int slotId) throws SQLException {
-        String sql = "SELECT * FROM parking_slot WHERE name = ?";
+        String sql = "SELECT * FROM parking_slot WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, slotId);
         ResultSet resultSet = statement.executeQuery();
@@ -86,18 +90,20 @@ public class ParkingSlotDAO {
 		return parkingSlot;
 	}
 	
-	public void updateParkingSlot(ParkingSlot parkingSlot) throws SQLException {
-		
+	public void updateParkingSlot(ParkingSlot parkingSlot) throws SQLException{
 		String sql = "UPDATE parking_slot SET parking_area_id = ?, status = ? WHERE name = ?";
 	    PreparedStatement statement = connection.prepareStatement(sql);
 	    
         statement.setInt(1, parkingSlot.getParkingAreaId());
-        statement.setString(2, parkingSlot.getSlotNumber());
-        statement.setString(3, parkingSlot.getStatus());
+        statement.setString(2, parkingSlot.getStatus());
+        statement.setString(3, parkingSlot.getSlotNumber());
         
         statement.executeUpdate();
 	}
 
+	
+	//Update parking slot status
+	
 	public void updateParkingSlotStatus(int parkingSlotId, String newStatus) throws SQLException{
 	    ParkingSlot parkingSlot = getParkingSlotById(parkingSlotId);
 	    if (parkingSlot == null) {
@@ -106,5 +112,15 @@ public class ParkingSlotDAO {
 	    parkingSlot.setStatus(newStatus);
 	    updateParkingSlot(parkingSlot);
 	    
+	}
+	
+	public boolean canEditParkingArea(int ParkingAreaId) throws SQLException{
+        List<ParkingSlot> parkingSlots = getParkingSlotsByParkingArea(ParkingAreaId);
+        boolean bookingExists = parkingSlots.stream().anyMatch(slot -> slot.getStatus().equals("booked"));
+        if (bookingExists) {
+            System.out.println("Cannot update parking area because a booking exists");
+            return false;
+        }
+		return true;
 	}
 }
