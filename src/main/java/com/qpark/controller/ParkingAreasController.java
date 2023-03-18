@@ -2,6 +2,7 @@ package com.qpark.controller;
 
 import com.qpark.DatabaseConnection;
 import com.qpark.dao.ParkingAreaDAO;
+import com.qpark.dao.ParkingSlotDAO;
 import com.qpark.model.ParkingArea;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;

@@ -47,7 +47,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >Earnings</span
                         >
-                                <span class="h3 font-bold mb-0">KES. 750.00</span>
+                                <span class="h3 font-bold mb-0">KES. ${stats.totalAmount}</span>
                             </div>
                             <div class="col-auto">
                                 <div
@@ -75,7 +75,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >All Drivers</span
                         >
-                                <span class="h3 font-bold mb-0">215</span>
+                                <span class="h3 font-bold mb-0">${stats.numDrivers}</span>
                             </div>
                             <div class="col-auto">
                                 <div
@@ -103,7 +103,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >Parking Areas</span
                         >
-                                <span class="h3 font-bold mb-0">1.400</span>
+                                <span class="h3 font-bold mb-0">${stats.numParkingAreas}</span>
                             </div>
                             <div class="col-auto">
                                 <div

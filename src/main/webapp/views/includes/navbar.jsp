@@ -145,7 +145,7 @@
                                     >
                                 </div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin">
                                     <i class="bi bi-person me-3"></i>
                                     Logout
                                 </a>
