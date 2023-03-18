@@ -1,5 +1,5 @@
 package com.qpark.dao;
-import com.qpark.model.Driver;
+import com.qpark.model.Vehicle;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,15 +13,14 @@ public class VehicleDAO {
     }
 
     public void create(Vehicle vehicle) throws SQLException {
-        String sql = "INSERT INTO drivers (id, brand, image, color, plate,type,driver_id) VALUES (?, ?, ?, ?, ?, ?,?)";
+        String sql = "INSERT INTO vehicles (brand, image, color, plate,type,driver_id) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, driver.getId());
-        statement.setString(2, driver.getBrand());
-        statement.setString(3, driver.getImage());
-        statement.setString(4, driver.getColor());
-        statement.setString(5, driver.getPlate());
-        statement.setString(6, driver.getType());
-       statement.setString(7, driver.getDriver_id());
+        statement.setString(2, vehicle.getBrand());
+        statement.setString(3, vehicle.getImage());
+        statement.setString(4, vehicle.getColor());
+        statement.setString(5, vehicle.getPlate());
+        statement.setString(6, vehicle.getType());
+       statement.setInt(7, vehicle.getDriverId());
         statement.executeUpdate();
         statement.close();
     }
@@ -29,13 +28,13 @@ public class VehicleDAO {
     public void update(Vehicle vehicle) throws SQLException {
         String sql = "UPDATE vehicles SET id = ?, brand = ?, image = ?, color = ?, plate = ?, type = ?, driver_id = ? WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(1, driver.getId());
-        statement.setString(2, driver.getBrand());
-        statement.setString(3, driver.getImage());
-        statement.setString(4, driver.getColor());
-        statement.setString(5, driver.getPlate());
-        statement.setString(6, driver.getType());
-       statement.setString(7, driver.getDriver_id());
+        statement.setInt(1, vehicle.getId());
+        statement.setString(2, vehicle.getBrand());
+        statement.setString(3, vehicle.getImage());
+        statement.setString(4, vehicle.getColor());
+        statement.setString(5, vehicle.getPlate());
+        statement.setString(6, vehicle.getType());
+       statement.setInt(7, vehicle.getDriverId());
         statement.executeUpdate();
         statement.close();
     }
@@ -53,7 +52,7 @@ public class VehicleDAO {
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setInt(1, id);
         ResultSet resultSet = statement.executeQuery();
-        Driver driver = null;
+        Vehicle vehicle = null;
         if (resultSet.next()) {
             vehicle = new Vehicle(
                     resultSet.getInt("id"),
@@ -62,7 +61,7 @@ public class VehicleDAO {
                     resultSet.getString("color"),
                     resultSet.getString("plate"),
                     resultSet.getString("type"),
-                    resultSet.getString("driver_id")
+                    resultSet.getInt("driver_id")
             );
         }
         resultSet.close();
@@ -70,20 +69,20 @@ public class VehicleDAO {
         return vehicle;
     }
 
-    public List<Driver> findAll() throws SQLException {
-        String sql = "SELECT * FROM drivers";
+    public List<Vehicle> findAll() throws SQLException {
+        String sql = "SELECT * FROM vehicles";
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
-        List<Driver> drivers = new ArrayList<>();
+        List<Vehicle> vehicles = new ArrayList<>();
         while (resultSet.next()) {
-           vehicle = new Vehicle(
+           Vehicle vehicle = new Vehicle(
                     resultSet.getInt("id"),
                     resultSet.getString("brand"),
                     resultSet.getString("image"),
                     resultSet.getString("color"),
                     resultSet.getString("plate"),
                     resultSet.getString("type"),
-                    resultSet.getString("driver_id")
+                    resultSet.getInt("driver_id")
             );
             vehicles.add(vehicle);
         }
