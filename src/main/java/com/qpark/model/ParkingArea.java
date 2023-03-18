@@ -15,9 +15,6 @@ public class ParkingArea {
     private Time openingTime;
     private Time closingTime;
 
-    public ParkingArea() {
-    }
-
     public ParkingArea(int id, int capacity, String image, String location, BigDecimal price, String name,
                        String status, BigDecimal fine, Time openingTime, Time closingTime) {
         this.id = id;
