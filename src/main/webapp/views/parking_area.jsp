@@ -98,16 +98,16 @@
                 <td>
                   <c:choose>
                     <c:when test="${parkingArea.status eq 'Open'}">
-          <span class="badge badge-lg badge-dot">
-            <i class="bg-success"></i>
-            ${parkingArea.status}
-          </span>
+                      <span class="badge badge-lg badge-dot">
+                        <i class="bg-success"></i>
+                        ${parkingArea.status}
+                      </span>
                     </c:when>
                     <c:otherwise>
-          <span class="badge badge-lg badge-dot">
-            <i class="bg-danger"></i>
-            ${parkingArea.status}
-          </span>
+                      <span class="badge badge-lg badge-dot">
+                        <i class="bg-danger"></i>
+                        ${parkingArea.status}
+                      </span>
                     </c:otherwise>
                   </c:choose>
                 </td>

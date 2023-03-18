@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
@@ -41,50 +43,51 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>11:00 AM</td>
-            <td>Noel Mungai</td>
-            <td>Gate E. Student Center</td>
-            <td>N11</td>
-            <td>KDJ 457C</td>
-            <td>
-                        <span class="badge badge-lg badge-dot">
-                          <i class="bg-warning"></i>
-                          Active
-                        </span>
-            </td>
-            <td>
-              <span class="text-sm font-bold">Ksh. 2,500</span>
-            </td>
-            <td>1 Hour</td>
-            <td class="text-end">
-              <button class="btn btn-sm btn-outline-success">
-                <i class="bi bi-check2-all"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>11:00 AM</td>
-            <td>Noel Mungai</td>
-            <td>Gate E. Student Center</td>
-            <td>N11</td>
-            <td>KDJ 457C</td>
-            <td>
+          <c:if test="${bookingList != null}">
+            <c:forEach var="booking" items="${bookingList}">
+              <tr>
+                <td><fmt:formatDate value="${booking.checkIn}" pattern="hh:mm a" /></td>
+                <td>${booking.driver}</td>
+                <td>${booking.parking}</td>
+                <td>${booking.slotNo}</td>
+                <td>${booking.plate}</td>
+                <td>
+                  <c:choose>
+                    <c:when test="${booking.status eq 'Active'}">
                         <span class="badge badge-lg badge-dot">
                           <i class="bg-success"></i>
-                          Complete
+                          ${booking.status}
                         </span>
-            </td>
-            <td>
-              <span class="text-sm font-bold">Ksh. 2,500</span>
-            </td>
-            <td>1 Hour</td>
-            <td class="text-end">
-              <button class="btn btn-sm btn-outline-dark">
-                <i class="bi bi-arrow-repeat"></i>
-              </button>
-            </td>
-          </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="badge badge-lg badge-dot">
+                          <i class="bg-danger"></i>
+                          ${booking.status}
+                        </span>
+                    </c:otherwise>
+                  </c:choose>
+                </td>
+                <td>
+                  <span class="text-sm font-bold">Ksh. ${booking.amount}</span>
+                </td>
+                <td>${booking.duration}</td>
+                <td class="text-end">
+                  <c:choose>
+                    <c:when test="${booking.status eq 'Active'}">
+                      <button class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-check2-all"></i>
+                      </button>
+                    </c:when>
+                    <c:otherwise>
+                      <button class="btn btn-sm btn-outline-success">
+                        <i class="bi bi-arrow-repeat"></i>
+                      </button>
+                    </c:otherwise>
+                  </c:choose>
+                </td>
+              </tr>
+            </c:forEach>
+          </c:if>
           </tbody>
         </table>
       </div>
