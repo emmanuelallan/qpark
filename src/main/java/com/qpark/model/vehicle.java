@@ -7,16 +7,16 @@ public class Vehicle {
     private String color;
     private String plate;
     private String type;
-    private String driver_id;
+    private int driverId;
 
-    public Vehicle(int id, String brand, String image, String color, String plate, String type, String driver_id) {
+    public Vehicle(int id, String brand, String image, String color, String plate, String type, int driverId) {
         this.id = id;
         this.brand = brand;
         this.image = image;
         this.color = color;
         this.plate = plate;
         this.type = type;
-        this.driver_id = driver_id;
+        this.driverId = driverId;
     }
 
     // Getters and setters
@@ -63,17 +63,5 @@ public class Vehicle {
 
     public void setDriver_id(String driver_id) {
         this.driver_id = driver_id;
-    }
-
-    @Override
-    public String toString() {
-        return "Driver{" +
-                "id=" + id +
-                ", name='" + brand + '\'' +
-                ", avatar='" + image + '\'' +
-                ", email='" + color + '\'' +
-                ", phone='" + plate + '\'' +
-                ", drivingLicence='" + driver_id + '\'' +
-                '}';
     }
 }
