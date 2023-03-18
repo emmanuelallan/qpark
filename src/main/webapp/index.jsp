@@ -1,3 +1,5 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
@@ -66,150 +68,34 @@
             <div class="container">
                 <!-- stats start -->
                 <div class="row g-5">
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card shadow-4-hover">
-                            <div class="p-2">
-                                <a href="${pageContext.request.contextPath}/parking_slot" class="d-block"
-                                ><img
-                                        class="img-fluid rounded-2"
-                                        alt="..."
-                                        src="${pageContext.request.contextPath}/images/parking.jpg"
-                                /></a>
-                            </div>
-                            <div class="px-4 pt-2 pb-4">
-                                <h6 class="font-semibold mb-2">Gate E. Student Center</h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="text-xs text-muted">
-                                        <i class="bi bi-geo-alt me-1"></i>Chuka University
+                    <c:if test="${parkingAreasList != null}">
+                        <c:forEach var="parkingArea" items="${parkingAreasList}">
+                            <div class="col-lg-3 col-sm-6">
+                                <div class="card shadow-4-hover">
+                                    <div class="p-2">
+                                        <a href="${pageContext.request.contextPath}/parking_slot?id=${parkingArea.id}" class="d-block"
+                                        ><img
+                                                class="img-fluid rounded-2"
+                                                alt="${parkingArea.name}"
+                                                src="${pageContext.request.contextPath}/uploads/${parkingArea.image}"
+                                        /></a>
                                     </div>
-                                    <div class="text-sm text-muted ms-auto">
-                                        Ksh. <span class="text-primary font-bold">200</span>/hr
-                                    </div>
-                                </div>
-                                <span class="d-block"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card shadow-4-hover">
-                            <div class="p-2">
-                                <a href="#" class="d-block"
-                                ><img
-                                        class="img-fluid rounded-2"
-                                        alt="..."
-                                        src="${pageContext.request.contextPath}/images/parking.jpg"
-                                /></a>
-                            </div>
-                            <div class="px-4 pt-2 pb-4">
-                                <h6 class="font-semibold mb-2">Gate E. Student Center</h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="text-xs text-muted">
-                                        <i class="bi bi-geo-alt me-1"></i>Chuka University
-                                    </div>
-                                    <div class="text-sm text-muted ms-auto">
-                                        Ksh. <span class="text-primary font-bold">200</span>/hr
+                                    <div class="px-4 pt-2 pb-4">
+                                        <h6 class="font-semibold mb-2">${parkingArea.name}</h6>
+                                        <div class="d-flex align-items-center">
+                                            <div class="text-xs text-muted">
+                                                <i class="bi bi-geo-alt me-1"></i>${parkingArea.location}
+                                            </div>
+                                            <div class="text-sm text-muted ms-auto">
+                                                Ksh. <span class="text-primary font-bold">${parkingArea.price}</span>/hr
+                                            </div>
+                                        </div>
+                                        <span class="d-block"></span>
                                     </div>
                                 </div>
-                                <span class="d-block"></span>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card shadow-4-hover">
-                            <div class="p-2">
-                                <a href="#" class="d-block"
-                                ><img
-                                        class="img-fluid rounded-2"
-                                        alt="..."
-                                        src="${pageContext.request.contextPath}/images/parking.jpg"
-                                /></a>
-                            </div>
-                            <div class="px-4 pt-2 pb-4">
-                                <h6 class="font-semibold mb-2">Gate E. Student Center</h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="text-xs text-muted">
-                                        <i class="bi bi-geo-alt me-1"></i>Chuka University
-                                    </div>
-                                    <div class="text-sm text-muted ms-auto">
-                                        Ksh. <span class="text-primary font-bold">200</span>/hr
-                                    </div>
-                                </div>
-                                <span class="d-block"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card shadow-4-hover">
-                            <div class="p-2">
-                                <a href="#" class="d-block"
-                                ><img
-                                        class="img-fluid rounded-2"
-                                        alt="..."
-                                        src="${pageContext.request.contextPath}/images/parking.jpg"
-                                /></a>
-                            </div>
-                            <div class="px-4 pt-2 pb-4">
-                                <h6 class="font-semibold mb-2">Gate E. Student Center</h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="text-xs text-muted">
-                                        <i class="bi bi-geo-alt me-1"></i>Chuka University
-                                    </div>
-                                    <div class="text-sm text-muted ms-auto">
-                                        Ksh. <span class="text-primary font-bold">200</span>/hr
-                                    </div>
-                                </div>
-                                <span class="d-block"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card shadow-4-hover">
-                            <div class="p-2">
-                                <a href="#" class="d-block"
-                                ><img
-                                        class="img-fluid rounded-2"
-                                        alt="..."
-                                        src="${pageContext.request.contextPath}/images/parking.jpg"
-                                /></a>
-                            </div>
-                            <div class="px-4 pt-2 pb-4">
-                                <h6 class="font-semibold mb-2">Gate E. Student Center</h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="text-xs text-muted">
-                                        <i class="bi bi-geo-alt me-1"></i>Chuka University
-                                    </div>
-                                    <div class="text-sm text-muted ms-auto">
-                                        Ksh. <span class="text-primary font-bold">200</span>/hr
-                                    </div>
-                                </div>
-                                <span class="d-block"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="card shadow-4-hover">
-                            <div class="p-2">
-                                <a href="#" class="d-block"
-                                ><img
-                                        class="img-fluid rounded-2"
-                                        alt="..."
-                                        src="${pageContext.request.contextPath}/images/parking.jpg"
-                                /></a>
-                            </div>
-                            <div class="px-4 pt-2 pb-4">
-                                <h6 class="font-semibold mb-2">Gate E. Student Center</h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="text-xs text-muted">
-                                        <i class="bi bi-geo-alt me-1"></i>Chuka University
-                                    </div>
-                                    <div class="text-sm text-muted ms-auto">
-                                        Ksh. <span class="text-primary font-bold">200</span>/hr
-                                    </div>
-                                </div>
-                                <span class="d-block"></span>
-                            </div>
-                        </div>
-                    </div>
+                        </c:forEach>
+                    </c:if>
                 </div>
                 <!-- stats end -->
             </div>

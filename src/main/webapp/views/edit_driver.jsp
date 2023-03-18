@@ -1,4 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
@@ -9,7 +11,7 @@
         <div class="border-bottom pt-6">
             <div class="row align-items-center">
                 <div class="col-sm col-12">
-                    <h1 class="h2 ls-tight">Add Parking</h1>
+                    <h1 class="h2 ls-tight">Edit Driver</h1>
                 </div>
             </div>
         </div>
@@ -17,70 +19,63 @@
 </header>
 <!-- admin header end -->
 
+<c:if test="${driver != null}">
+    <c:set var="id" value="${driver.id}" />
+    <c:set var="name" value="${driver.name}" />
+    <c:set var="email" value="${driver.email}" />
+    <c:set var="phone" value="${driver.phone}" />
+    <c:set var="drivingLicence" value="${driver.drivingLicence}" />
+    <c:set var="otp" value="${driver.otp}" />
+    <c:set var="avatar" value="${driver.avatar}" />
+</c:if>
+
 <main class="py-6 bg-surface-secondary">
     <div class="container-fluid max-w-screen-md vstack gap-6">
         <!-- add parking form -->
-        <form class="card" action="${pageContext.request.contextPath}/parking_area/add" method="post" enctype="multipart/form-data">
+        <form class="card" action="${pageContext.request.contextPath}/drivers/update" method="post" enctype="multipart/form-data">
             <div class="card-body pb-0">
                 <div class="mb-7">
-                    <h4 class="mb-1">Parking Area Details</h4>
+                    <h4 class="mb-1">Driver Details</h4>
                     <p class="text-sm text-muted">
                         By filling your data you get a much better experience using
                         our website.
                     </p>
                 </div>
                 <div class="row g-5">
+                    <input type="hidden" name="id" value="${id}" />
                     <div class="col-md-6">
                         <div>
                             <label class="form-label" for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" required />
+                            <input type="text" class="form-control" id="name" name="name" value="${name}" required />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div>
-                            <label class="form-label" for="status">Status</label>
-                            <input type="text" class="form-control" name="status" id="status" value="Open" disabled />
+                            <label class="form-label" for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" value="${email}" required />
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-6">
                         <div>
-                            <label class="form-label" for="location">Location</label>
-                            <input type="text" class="form-control" name="location" id="location" required />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div>
-                            <label class="form-label" for="price">Price</label>
-                            <input type="number" class="form-control" id="price" name="price" required />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div>
-                            <label class="form-label" for="fine">Fine</label>
-                            <input type="number" class="form-control" name="fine" id="fine" required />
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div>
-                            <label class="form-label" for="capacity">Capacity</label>
-                            <input type="number" class="form-control" name="capacity" id="capacity" required />
+                            <label class="form-label" for="phone">Phone</label>
+                            <input type="tel" class="form-control" name="phone" id="phone" value="${phone}" required />
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div>
-                            <label class="form-label" for="opening_time">Opening Time</label>
-                            <input type="time" class="form-control" id="opening_time" name="opening_time" required />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div>
-                            <label class="form-label" for="closing_time">Closing Time</label>
-                            <input type="time" class="form-control" name="closing_time" id="closing_time" required />
+                            <label class="form-label" for="otp">One Time Password</label>
+                            <input type="text" class="form-control" name="otp" id="otp" value="${otp}" required />
                         </div>
                     </div>
                     <div class="col-md-12">
                         <div>
-                            <label class="form-label" for="file_upload">Image</label>
+                            <label class="form-label" for="drivingLicence">Driving Licence</label>
+                            <input type="number" class="form-control" id="drivingLicence" maxlength="10" minlength="10" name="drivingLicence" value="${drivingLicence}" required />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div>
+                            <label class="form-label" for="file_upload">Avatar</label>
                             <div
                                     class="rounded border border-2 border-dashed border-primary-hover position-relative"
                             >
@@ -93,7 +88,7 @@
                                             name="file_upload"
                                             type="file"
                                             class="visually-hidden"
-                                            required
+                                            value="${avatar}"
                                     /></label>
                                     <div class="text-center">
                                         <div class="text-2xl text-muted">
@@ -116,7 +111,7 @@
             </div>
             <div class="card-footer text-end">
                 <button type="submit" class="btn btn-sm btn-primary">
-                    Add Parking
+                    Update Driver
                 </button>
             </div>
         </form>

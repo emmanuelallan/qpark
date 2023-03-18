@@ -1,8 +1,8 @@
 package com.qpark.controller;
 
 import com.qpark.DatabaseConnection;
-import com.qpark.dao.BookingDAO;
-import com.qpark.model.Booking;
+import com.qpark.dao.ParkingAreaDAO;
+import com.qpark.model.ParkingArea;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,16 +14,16 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "BookingsController", value = "/booking")
-public class BookingsController extends HttpServlet {
-    private BookingDAO bookingDAO;
+@WebServlet(name = "HomeController", value = "")
+public class HomeController extends HttpServlet {
+    private ParkingAreaDAO parkingAreaDAO;
 
     public void init() throws ServletException {
         super.init();
 
         try {
             Connection connection = DatabaseConnection.getConnection();
-            bookingDAO = new BookingDAO(connection);
+            parkingAreaDAO = new ParkingAreaDAO(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -33,9 +33,9 @@ public class BookingsController extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Booking> bookingList = bookingDAO.findAll();
-            request.setAttribute("bookingList", bookingList);
-            request.getRequestDispatcher("/views/booking.jsp").forward(request, response);
+            List<ParkingArea> parkingAreasList = parkingAreaDAO.findAll();
+            request.setAttribute("parkingAreasList", parkingAreasList);
+            request.getRequestDispatcher("/index.jsp").forward(request, response);
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }

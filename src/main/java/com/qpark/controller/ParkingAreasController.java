@@ -7,14 +7,22 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+import javax.naming.Context;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Time;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet(name = "ParkingAreasController", value = "/parking_area/*")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10,      // 10MB
+        maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 public class ParkingAreasController extends HttpServlet {
     private ParkingAreaDAO parkingAreaDAO;
 
@@ -63,9 +71,6 @@ public class ParkingAreasController extends HttpServlet {
                     case "/":
                         listParkingAreas(request, response);
                         break;
-                    case "/view":
-                        viewParkingArea(request, response);
-                        break;
                     case "/new":
                         showNewForm(request, response);
                         break;
@@ -88,12 +93,6 @@ public class ParkingAreasController extends HttpServlet {
         request.getRequestDispatcher("/views/parking_area.jsp").forward(request, response);
     }
 
-    private void viewParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int parkingAreaId = Integer.parseInt(request.getParameter("id"));
-        ParkingArea parkingArea = parkingAreaDAO.findById(1);
-        request.setAttribute("parkingArea", parkingArea);
-        request.getRequestDispatcher("/views/parking_slot.jsp").forward(request, response);
-    }
 
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/views/add_parking_area.jsp").forward(request, response);
@@ -103,44 +102,68 @@ public class ParkingAreasController extends HttpServlet {
         int parkingAreaId = Integer.parseInt(request.getParameter("id"));
         ParkingArea parkingArea = parkingAreaDAO.findById(parkingAreaId);
         request.setAttribute("parkingArea", parkingArea);
-        request.getRequestDispatcher("/views/packing_area/edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/edit_parking_area.jsp").forward(request, response);
     }
 
-    private void addParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void addParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         int capacity = Integer.parseInt(request.getParameter("capacity"));
-        String image = request.getParameter("image");
         String location = request.getParameter("location");
         BigDecimal price = new BigDecimal(request.getParameter("price"));
         String name = request.getParameter("name");
         String status = request.getParameter("status");
         BigDecimal fine = new BigDecimal(request.getParameter("fine"));
-        Time opening_time = Time.valueOf(request.getParameter("opening_time"));
-        Time closing_time = Time.valueOf(request.getParameter("closing_time"));
+        Time opening_time = Time.valueOf(request.getParameter("opening_time") + ":00");
+        Time closing_time = Time.valueOf(request.getParameter("closing_time") + ":00");
+
+        // Handle image upload
+        Part filePart = request.getPart("file_upload");
+        String fileName = filePart.getSubmittedFileName();
+        String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+        String image = UUID.randomUUID() + fileExtension;
+        String savePath = getServletContext().getRealPath("/uploads") + File.separator + image;
+        System.out.println(savePath);
+        new File(savePath);
+        filePart.write(savePath);
         ParkingArea newParkingArea = new ParkingArea(1, capacity, image, location, price, name, status, fine, opening_time, closing_time);
         parkingAreaDAO.create(newParkingArea);
-        response.sendRedirect("list");
+        response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=create");
     }
 
-    private void editParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void editParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         int capacity = Integer.parseInt(request.getParameter("capacity"));
-        String image = request.getParameter("image");
         String location = request.getParameter("location");
         BigDecimal price = new BigDecimal(request.getParameter("price"));
         String name = request.getParameter("name");
         String status = request.getParameter("status");
         BigDecimal fine = new BigDecimal(request.getParameter("fine"));
-        Time opening_time = Time.valueOf(request.getParameter("opening_time"));
-        Time closing_time = Time.valueOf(request.getParameter("closing_time"));
+        Time opening_time = Time.valueOf(request.getParameter("opening_time") + ":00");
+        Time closing_time = Time.valueOf(request.getParameter("closing_time") + ":00");
+        String image;
+
+        // Handle image upload
+        Part filePart = request.getPart("file_upload");
+        if(filePart.getSize() <= 0 || filePart.getSubmittedFileName().equals("")){
+            ParkingArea currentParkingArea = parkingAreaDAO.findById(id);
+            image = currentParkingArea.getImage();
+        }else{
+            String fileName = filePart.getSubmittedFileName();
+            String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+            image = UUID.randomUUID() + fileExtension;
+            String savePath = getServletContext().getRealPath("/uploads") + File.separator + image;
+            System.out.println(savePath);
+            new File(savePath);
+            filePart.write(savePath);
+        }
 
         ParkingArea parkingAreaToUpdate = new ParkingArea(id, capacity, image, location, price, name, status, fine, opening_time, closing_time);
         parkingAreaDAO.update(parkingAreaToUpdate);
-        response.sendRedirect("/");
+        response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=update");
     }
 
     private void deleteParkingArea(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         parkingAreaDAO.delete(id);
-        response.sendRedirect("/");
+        response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=delete");
     }
 }
