@@ -24,44 +24,27 @@ public class Vehicle {
 
     public void setId(int id) { this.id = id; }
 
-    public String getBrand() {
-        return brand;
-    }
+    public String getBrand(){ return brand; }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+    public void setBrand(String brand) { this.brand = brand; }
 
-    public String getColor() {
-        return color;
-    }
+    public String getImage(){ return image; }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+    public void setImage(String image) { this.image = image; }
 
-    public String getPlate() {
-        return plate;
-    }
+    public String getColor(){ return color; }
 
-    public void setPlate(String plate) {
-        this.plate = plate;
-    }
+    public void setColor(String color) { this.color = color; }
 
-    public String getType() {
-        return type;
-    }
+    public String getPlate(){ return plate; }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    public void setPlate(String plate) { this.plate = plate; }
 
-    public String getDriver_id() {
-        return driver_id;
-    }
+    public String getType(){ return type; }
 
+    public void setType(String type) { this.type = type; }
 
-    public void setDriver_id(String driver_id) {
-        this.driver_id = driver_id;
-    }
+    public int getDriverId(){ return driverId; }
+
+    public void setDriverId(int driverId) { this.driverId = driverId; }
 }
