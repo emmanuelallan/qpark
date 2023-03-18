@@ -24,64 +24,56 @@ public class Vehicle {
 
     public void setId(int id) { this.id = id; }
 
-    public String getName() {
-        return name;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public String getColor() {
+        return color;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPlate() {
+        return plate;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPlate(String plate) {
+        this.plate = plate;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getType() {
+        return type;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getDrivingLicence() {
-        return drivingLicence;
+    public String getDriver_id() {
+        return driver_id;
     }
 
-    public String getOtp() {
-        return otp;
-    }
 
-    public void setDrivingLicence(String drivingLicence) {
-        this.drivingLicence = drivingLicence;
-    }
-
-    public void setOtp(String otp) {
-        this.otp = otp;
+    public void setDriver_id(String driver_id) {
+        this.driver_id = driver_id;
     }
 
     @Override
     public String toString() {
         return "Driver{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", avatar='" + avatar + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", drivingLicence='" + drivingLicence + '\'' +
-                ", otp='" + otp + '\'' +
+                ", name='" + brand + '\'' +
+                ", avatar='" + image + '\'' +
+                ", email='" + color + '\'' +
+                ", phone='" + plate + '\'' +
+                ", drivingLicence='" + driver_id + '\'' +
                 '}';
     }
 }
