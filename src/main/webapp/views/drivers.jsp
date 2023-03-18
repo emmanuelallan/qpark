@@ -97,12 +97,18 @@
                                     <a href="tel:${driver.phone}"> ${driver.phone} </a>
                                 </td>
                                 <td>${driver.drivingLicence}</td>
-<%--                                <td>--%>
-<%--                                    <c:forEach items="${driver.vehicles}" var="vehicle">--%>
-<%--                                        <span class="text-xs">${vehicle.plate}</span>--%>
-<%--                                    </c:forEach>--%>
-<%--                                </td>--%>
                                 <td>
+<%--                                    <c:if test="${driver.vehicles != null}">--%>
+<%--                                        <c:forEach items="${driver.vehicles}" var="vehicle">--%>
+<%--                                            <a href="${pageContext.request.contextPath}/vehicles/edit?id=${vehicle.id}"--%>
+<%--                                               class="btn btn-sm btn-outline-dark me-1">--%>
+<%--                                                ${vehicle.plate}--%>
+<%--                                            </a>--%>
+<%--                                        </c:forEach>--%>
+<%--                                    </c:if>--%>
+                                    -
+                                </td>
+                                <td class="d-flex">
                                     <a href="${pageContext.request.contextPath}/drivers/edit?id=${driver.id}"
                                        class="btn btn-sm btn-outline-dark me-1">
                                         <i class="bi bi-pencil"></i>
