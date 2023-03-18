@@ -13,28 +13,28 @@ public class VehicleDAO {
     }
 
     public void create(Vehicle vehicle) throws SQLException {
-        String sql = "INSERT INTO vehicles (brand, image, color, plate,type,driver_id) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO vehicles (brand, image, color, plate, type, driver_id) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setString(2, vehicle.getBrand());
-        statement.setString(3, vehicle.getImage());
-        statement.setString(4, vehicle.getColor());
-        statement.setString(5, vehicle.getPlate());
-        statement.setString(6, vehicle.getType());
-       statement.setInt(7, vehicle.getDriverId());
+        statement.setString(1, vehicle.getBrand());
+        statement.setString(2, vehicle.getImage());
+        statement.setString(3, vehicle.getColor());
+        statement.setString(4, vehicle.getPlate());
+        statement.setString(5, vehicle.getType());
+       statement.setInt(6, vehicle.getDriverId());
         statement.executeUpdate();
         statement.close();
     }
 
     public void update(Vehicle vehicle) throws SQLException {
-        String sql = "UPDATE vehicles SET id = ?, brand = ?, image = ?, color = ?, plate = ?, type = ?, driver_id = ? WHERE id = ?";
+        String sql = "UPDATE vehicles SET brand = ?, image = ?, color = ?, plate = ?, type = ?, driver_id = ? WHERE id = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1, vehicle.getId());
-        statement.setString(2, vehicle.getBrand());
-        statement.setString(3, vehicle.getImage());
-        statement.setString(4, vehicle.getColor());
-        statement.setString(5, vehicle.getPlate());
-        statement.setString(6, vehicle.getType());
-       statement.setInt(7, vehicle.getDriverId());
+        statement.setString(1, vehicle.getBrand());
+        statement.setString(2, vehicle.getImage());
+        statement.setString(3, vehicle.getColor());
+        statement.setString(4, vehicle.getPlate());
+        statement.setString(5, vehicle.getType());
+       statement.setInt(6, vehicle.getDriverId());
+        statement.setInt(7, vehicle.getId());
         statement.executeUpdate();
         statement.close();
     }
