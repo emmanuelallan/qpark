@@ -2,6 +2,7 @@ package com.qpark.dao;
 
 import com.qpark.model.Booking;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,18 +42,30 @@ public class BookingDAO {
         statement.close();
     }
 
-    public void getBookingCount() throws SQLException {
-        String sql = "SELECT COUNT(*) FROM bookings";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.executeUpdate();
+    public int getBookingCount() throws SQLException {
+        String query = "SELECT COUNT(*) FROM bookings";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        int count = 0;
+        if (resultSet.next()) {
+            count = resultSet.getInt(1);
+        }
+        resultSet.close();
         statement.close();
+        return count;
     }
     
-    public void getTotalAmount() throws SQLException {
+    public BigDecimal getTotalAmount() throws SQLException {
         String sql = "SELECT SUM(amount) FROM bookings";
         PreparedStatement statement = connection.prepareStatement(sql);
-        statement.executeUpdate();
+        ResultSet resultSet = statement.executeQuery();
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        if (resultSet.next()) {
+            totalAmount = resultSet.getBigDecimal(1);
+        }
+        resultSet.close();
         statement.close();
+        return totalAmount;
     }
 
     public List<Booking> findAll() throws SQLException {

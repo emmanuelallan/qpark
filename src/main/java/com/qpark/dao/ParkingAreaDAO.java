@@ -102,4 +102,18 @@ public class ParkingAreaDAO {
         statement.close();
         return parkingAreas;
     }
+
+    // get parking areas count
+    public int getParkingAreaCount() throws SQLException {
+        String query = "SELECT COUNT(*) FROM parking_areas";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        int count = 0;
+        if (resultSet.next()) {
+            count = resultSet.getInt(1);
+        }
+        resultSet.close();
+        statement.close();
+        return count;
+    }
 }

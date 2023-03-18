@@ -91,7 +91,7 @@ public class DriverDAO {
         return drivers;
     }
 
-    public Driver findByEmail(String drivingLicence) throws SQLException {
+    public Driver findByLicence(String drivingLicence) throws SQLException {
         String sql = "SELECT * FROM drivers WHERE driving_licence = ?";
         PreparedStatement statement = connection.prepareStatement(sql);
         statement.setString(1, drivingLicence);
@@ -111,6 +111,20 @@ public class DriverDAO {
         resultSet.close();
         statement.close();
         return driver;
+    }
+
+    // get driver count
+    public int getDriverCount() throws SQLException {
+        String sql = "SELECT COUNT(*) FROM drivers";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        int count = 0;
+        if (resultSet.next()) {
+            count = resultSet.getInt(1);
+        }
+        resultSet.close();
+        statement.close();
+        return count;
     }
 }
 

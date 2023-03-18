@@ -1,7 +1,9 @@
 package com.qpark.controller;
 
 import com.qpark.DatabaseConnection;
+import com.qpark.dao.DriverDAO;
 import com.qpark.dao.ParkingAreaDAO;
+import com.qpark.model.Driver;
 import com.qpark.model.ParkingArea;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +19,7 @@ import java.sql.SQLException;
 public class ParkingSlotsController extends HttpServlet {
 
     private ParkingAreaDAO parkingAreaDAO;
+    private DriverDAO driverDAO;
 
     public void init() throws ServletException {
         super.init();
@@ -24,6 +27,7 @@ public class ParkingSlotsController extends HttpServlet {
         try {
             Connection connection = DatabaseConnection.getConnection();
             parkingAreaDAO = new ParkingAreaDAO(connection);
+            driverDAO = new DriverDAO(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -60,5 +64,12 @@ public class ParkingSlotsController extends HttpServlet {
         ParkingArea parkingArea = parkingAreaDAO.findById(1);
         request.setAttribute("parkingArea", parkingArea);
         request.getRequestDispatcher("/index.jsp").forward(request, response);
+    }
+
+    private void searchDriverByLicence(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
+        String drivingLicence = request.getParameter("drivingLicence");
+        Driver driver = driverDAO.findByLicence(drivingLicence);
+        request.setAttribute("driver", driver);
+        request.getRequestDispatcher("/views/parking_slot.jsp").forward(request, response);
     }
 }

@@ -39,12 +39,7 @@
                     <div class="col-md-6">
                         <div>
                             <label class="form-label" for="status">Status</label>
-                            <select class="form-select" id="status" name="status" required>
-                                <option selected="">Status</option>
-                                <option value="Open">Open</option>
-                                <option value="Closed">Closed</option>
-                                <option value="Full">Full</option>
-                            </select>
+                            <input type="text" class="form-control" name="status" id="status" value="Open" disabled />
                         </div>
                     </div>
                     <div class="col-12">
