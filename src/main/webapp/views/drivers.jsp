@@ -1,8 +1,36 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
 <%-- main start --%>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <c:if test="${not empty param.success}">
+                <div class="alert alert-success" role="alert">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <p>
+                                ${
+                                    param.success == 'create' ? 'Driver Added Successfully' :
+                                    param.success == 'update' ? 'Driver Updated Successfully' :
+                                    param.success == 'delete' ? 'Driver Deleted Successfully' :
+                                    ''
+                                    }
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0 ms-3">
+                            <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+        </div>
+    </div>
+</div>
+
 <!-- admin header start -->
 <header>
     <div class="container">
@@ -14,7 +42,7 @@
                 <div class="col-sm-auto col-12 mt-4 mt-sm-0">
                     <div class="hstack gap-2 justify-content-sm-end">
                         <a
-                                href="#"
+                                href="${pageContext.request.contextPath}/drivers/new"
                                 class="btn btn-sm btn-primary"
                         >
                       <span class="pe-2">
@@ -51,24 +79,44 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>
-                            <a href="mailto:john@doe.com"> john@doe.com </a>
-                        </td>
-                        <td>
-                            <a href="tel:+254700000000"> +254700000000 </a>
-                        </td>
-                        <td>1234567890</td>
-                        <td>
-                            <span class="text-xs">KDJ 457C, KAY 458D</span>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-dark">
-                                <i class="bi bi-pencil"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    <c:if test="${driversList != null}">
+                        <c:forEach items="${driversList}" var="driver">
+                            <tr>
+                                <td>
+                                    <img
+                                        alt="..."
+                                        src="${pageContext.request.contextPath}/uploads/${driver.avatar}"
+                                        class="avatar avatar-sm rounded-circle me-2"
+                                    />
+                                    <a class="text-heading font-semibold" href="#">${driver.name}</a>
+                                </td>
+                                <td>
+                                    <a href="mailto:${driver.email}"> ${driver.email} </a>
+                                </td>
+                                <td>
+                                    <a href="tel:${driver.phone}"> ${driver.phone} </a>
+                                </td>
+                                <td>${driver.drivingLicence}</td>
+<%--                                <td>--%>
+<%--                                    <c:forEach items="${driver.vehicles}" var="vehicle">--%>
+<%--                                        <span class="text-xs">${vehicle.plate}</span>--%>
+<%--                                    </c:forEach>--%>
+<%--                                </td>--%>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/drivers/edit?id=${driver.id}"
+                                       class="btn btn-sm btn-outline-dark me-1">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="${pageContext.request.contextPath}/drivers/delete" method="post">
+                                        <input type="hidden" name="id" value="${driver.id}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                     </tbody>
                 </table>
             </div>

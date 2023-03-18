@@ -7,12 +7,19 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 @WebServlet(name = "DriversController", value = "/drivers/*")
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10,      // 10MB
+        maxRequestSize = 1024 * 1024 * 50    // 50MB
+)
 public class DriversController extends HttpServlet {
     private DriverDAO driverDAO;
 
@@ -61,9 +68,6 @@ public class DriversController extends HttpServlet {
                     case "/":
                         listDrivers(request, response);
                         break;
-                    case "/view":
-                        viewDriver(request, response);
-                        break;
                     case "/new":
                         showNewForm(request, response);
                         break;
@@ -86,53 +90,70 @@ public class DriversController extends HttpServlet {
         request.getRequestDispatcher("/views/drivers.jsp").forward(request, response);
     }
 
-    private void viewDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
-        int driverId = Integer.parseInt(request.getParameter("id"));
-        Driver driver = driverDAO.findById(driverId);
-        request.setAttribute("driver", driver);
-        request.getRequestDispatcher("/views/drivers/view.jsp").forward(request, response);
-    }
-
     private void showNewForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/views/drivers/new.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/add_driver.jsp").forward(request, response);
     }
 
     private void showEditForm(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         int driverId = Integer.parseInt(request.getParameter("id"));
         Driver driver = driverDAO.findById(driverId);
         request.setAttribute("driver", driver);
-        request.getRequestDispatcher("/views/drivers/edit.jsp").forward(request, response);
+        request.getRequestDispatcher("/views/edit_driver.jsp").forward(request, response);
     }
 
-    private void addDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void addDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         String name = request.getParameter("name");
-        String avatar = request.getParameter("avatar");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String drivingLicence = request.getParameter("drivingLicence");
         String otp = request.getParameter("otp");
+
+        // Handle image upload
+        Part filePart = request.getPart("file_upload");
+        String fileName = filePart.getSubmittedFileName();
+        String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+        String avatar = UUID.randomUUID() + fileExtension;
+        String savePath = getServletContext().getRealPath("/uploads") + File.separator + avatar;
+        System.out.println(savePath);
+        new File(savePath);
+        filePart.write(savePath);
         Driver newDriver = new Driver(1, name, avatar, email, phone, drivingLicence, otp);
         driverDAO.create(newDriver);
-        response.sendRedirect("list");
+        response.sendRedirect(request.getContextPath() + "/drivers" + "?success=create");
     }
 
-    private void editDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+    private void editDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException, ServletException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
-        String avatar = request.getParameter("avatar");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String drivingLicence = request.getParameter("drivingLicence");
         String otp = request.getParameter("otp");
+        String avatar;
+
+        // Handle image upload
+        Part filePart = request.getPart("file_upload");
+        if(filePart.getSize() <= 0 || filePart.getSubmittedFileName().equals("")){
+            Driver currentDriver = driverDAO.findById(id);
+            avatar = currentDriver.getAvatar();
+        }else{
+            String fileName = filePart.getSubmittedFileName();
+            String fileExtension = fileName.substring(fileName.lastIndexOf("."));
+            avatar = UUID.randomUUID() + fileExtension;
+            String savePath = getServletContext().getRealPath("/uploads") + File.separator + avatar;
+            System.out.println(savePath);
+            new File(savePath);
+            filePart.write(savePath);
+        }
 
         Driver driverToUpdate = new Driver(id, name, avatar, email, phone, drivingLicence, otp);
         driverDAO.update(driverToUpdate);
-        response.sendRedirect("list");
+        response.sendRedirect(request.getContextPath() + "/drivers" + "?success=update");
     }
 
     private void deleteDriver(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         driverDAO.delete(id);
-        response.sendRedirect("list");
+        response.sendRedirect(request.getContextPath() + "/drivers" + "?success=delete");
     }
 }

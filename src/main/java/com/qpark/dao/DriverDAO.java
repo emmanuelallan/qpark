@@ -61,7 +61,7 @@ public class DriverDAO {
                     resultSet.getString("email"),
                     resultSet.getString("phone"),
                     resultSet.getString("driving_licence"),
-                    resultSet.getString("password")
+                    resultSet.getString("otp")
             );
         }
         resultSet.close();
@@ -89,6 +89,28 @@ public class DriverDAO {
         resultSet.close();
         statement.close();
         return drivers;
+    }
+
+    public Driver findByEmail(String drivingLicence) throws SQLException {
+        String sql = "SELECT * FROM drivers WHERE driving_licence = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, drivingLicence);
+        ResultSet resultSet = statement.executeQuery();
+        Driver driver = null;
+        if (resultSet.next()) {
+            driver = new Driver(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("avatar"),
+                    resultSet.getString("email"),
+                    resultSet.getString("phone"),
+                    resultSet.getString("driving_licence"),
+                    resultSet.getString("otp")
+            );
+        }
+        resultSet.close();
+        statement.close();
+        return driver;
     }
 }
 
