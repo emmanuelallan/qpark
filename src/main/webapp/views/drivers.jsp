@@ -98,15 +98,10 @@
                                 </td>
                                 <td>${driver.drivingLicence}</td>
                                 <td>
-<%--                                    <c:if test="${driver.vehicles != null}">--%>
-<%--                                        <c:forEach items="${driver.vehicles}" var="vehicle">--%>
-<%--                                            <a href="${pageContext.request.contextPath}/vehicles/edit?id=${vehicle.id}"--%>
-<%--                                               class="btn btn-sm btn-outline-dark me-1">--%>
-<%--                                                ${vehicle.plate}--%>
-<%--                                            </a>--%>
-<%--                                        </c:forEach>--%>
-<%--                                    </c:if>--%>
-                                    -
+                                    <a href="${pageContext.request.contextPath}/vehicles?driver=${driver.id}"
+                                       class="badge badge-sm bg-purple-500 text-white">
+                                        <i class="bi bi-eye"></i> View Vehicles
+                                    </a>
                                 </td>
                                 <td class="d-flex">
                                     <a href="${pageContext.request.contextPath}/drivers/edit?id=${driver.id}"

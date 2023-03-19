@@ -69,13 +69,14 @@ public class VehicleDAO {
         return vehicle;
     }
 
-    public List<Vehicle> findAll() throws SQLException {
-        String sql = "SELECT * FROM vehicles";
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+    public List<Vehicle> selectVehiclesByDriverId(int driverId) throws SQLException {
+        String sql = "SELECT * FROM vehicles WHERE driver_id = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setInt(1, driverId);
+        ResultSet resultSet = statement.executeQuery();
         List<Vehicle> vehicles = new ArrayList<>();
         while (resultSet.next()) {
-           Vehicle vehicle = new Vehicle(
+            Vehicle vehicle = new Vehicle(
                     resultSet.getInt("id"),
                     resultSet.getString("brand"),
                     resultSet.getString("image"),
