@@ -39,7 +39,7 @@
                     <div class="col-md-6">
                         <div>
                             <label class="form-label" for="status">Status</label>
-                            <input type="text" class="form-control" name="status" id="status" value="Open" disabled />
+                            <input type="text" class="form-control" name="status" id="status" value="Open" readonly />
                         </div>
                     </div>
                     <div class="col-12">

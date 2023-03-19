@@ -37,8 +37,6 @@ CREATE TABLE parking_slots (
     parking_area_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
-    type VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NOT NULL,
     FOREIGN KEY (parking_area_id) REFERENCES parking_areas(id) ON DELETE CASCADE
 );
 

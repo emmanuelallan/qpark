@@ -50,7 +50,7 @@
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="sidebarAvatar">
-                            <a href="#" class="dropdown-item">Logout</a>
+                            <a href="${pageContext.request.contextPath}/admin/logout" class="dropdown-item">Logout</a>
                         </div>
                     </div>
                 </div>
@@ -145,7 +145,7 @@
                                     >
                                 </div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin">
+                                <a class="dropdown-item" href="${pageContext.request.contextPath}/admin/logout">
                                     <i class="bi bi-person me-3"></i>
                                     Logout
                                 </a>

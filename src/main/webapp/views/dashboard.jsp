@@ -9,9 +9,9 @@
         <div class="border-bottom pt-6">
             <div class="row align-items-center">
                 <div class="col-sm col-12">
-                    <h1 class="h2 ls-tight">
+                    <h1 class="h2 ls-tight text-capitalize">
                         <span class="d-inline-block me-3">👋</span>
-                        Hi, Admin!
+                        Hi, ${admin.name}
                     </h1>
                 </div>
                 <div class="col-sm-auto col-12 mt-4 mt-sm-0">
@@ -47,7 +47,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >Earnings</span
                         >
-                                <span class="h3 font-bold mb-0">KES. ${stats.totalAmount}</span>
+                                <span class="h3 font-bold mb-0">KES. ${totalAmount}</span>
                             </div>
                             <div class="col-auto">
                                 <div
@@ -75,7 +75,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >All Drivers</span
                         >
-                                <span class="h3 font-bold mb-0">${stats.numDrivers}</span>
+                                <span class="h3 font-bold mb-0">${driversCount}</span>
                             </div>
                             <div class="col-auto">
                                 <div
@@ -103,7 +103,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >Parking Areas</span
                         >
-                                <span class="h3 font-bold mb-0">${stats.numParkingAreas}</span>
+                                <span class="h3 font-bold mb-0">${parkingAreasCount}</span>
                             </div>
                             <div class="col-auto">
                                 <div
@@ -131,7 +131,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >Orders</span
                         >
-                                <span class="h3 font-bold mb-0">95%</span>
+                                <span class="h3 font-bold mb-0">${totalBookings}</span>
                             </div>
                             <div class="col-auto">
                                 <div
@@ -174,50 +174,51 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>11:00 AM</td>
-                        <td>Noel Mungai</td>
-                        <td>Gate E. Student Center</td>
-                        <td>N11</td>
-                        <td>KDJ 457C</td>
-                        <td>
-                        <span class="badge badge-lg badge-dot">
-                          <i class="bg-warning"></i>
-                          Active
-                        </span>
-                        </td>
-                        <td>
-                            <span class="text-sm font-bold">Ksh. 2,500</span>
-                        </td>
-                        <td>1 Hour</td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-outline-success">
-                                <i class="bi bi-check2-all"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>11:00 AM</td>
-                        <td>Noel Mungai</td>
-                        <td>Gate E. Student Center</td>
-                        <td>N11</td>
-                        <td>KDJ 457C</td>
-                        <td>
+                    <c:if test="${bookingList != null}">
+                        <c:forEach var="booking" items="${bookingList}">
+                            <tr>
+                                <td><fmt:formatDate value="${booking.checkIn}" pattern="hh:mm a" /></td>
+                                <td>${booking.driver}</td>
+                                <td>${booking.parking}</td>
+                                <td>${booking.slotNo}</td>
+                                <td>${booking.plate}</td>
+                                <td>
+                                    <c:choose>
+                                        <c:when test="${booking.status eq 'Active'}">
                         <span class="badge badge-lg badge-dot">
                           <i class="bg-success"></i>
-                          Complete
+                          ${booking.status}
                         </span>
-                        </td>
-                        <td>
-                            <span class="text-sm font-bold">Ksh. 2,500</span>
-                        </td>
-                        <td>1 Hour</td>
-                        <td class="text-end">
-                            <button class="btn btn-sm btn-outline-dark">
-                                <i class="bi bi-arrow-repeat"></i>
-                            </button>
-                        </td>
-                    </tr>
+                                        </c:when>
+                                        <c:otherwise>
+                        <span class="badge badge-lg badge-dot">
+                          <i class="bg-danger"></i>
+                          ${booking.status}
+                        </span>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td>
+                                    <span class="text-sm font-bold">Ksh. ${booking.amount}</span>
+                                </td>
+                                <td>${booking.duration}</td>
+                                <td class="text-end">
+                                    <c:choose>
+                                        <c:when test="${booking.status eq 'Active'}">
+                                            <button class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-check2-all"></i>
+                                            </button>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <button class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-arrow-repeat"></i>
+                                            </button>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                    </c:if>
                     </tbody>
                 </table>
             </div>

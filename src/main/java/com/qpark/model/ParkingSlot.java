@@ -5,8 +5,9 @@ public class ParkingSlot{
     private int parkingAreaId;
     private String slotName;
     private String status;
+    private ParkingArea parking;
 
-    
+
     public ParkingSlot(int parkingAreaId, String slotName, String status) {
         this.parkingAreaId = parkingAreaId;
         this.slotName = slotName;
@@ -15,7 +16,6 @@ public class ParkingSlot{
     
 
     public int getParkingAreaId() {
-    	ParkingArea parking = new ParkingArea();
     	parkingAreaId = parking.getId();
         return parkingAreaId;
     }

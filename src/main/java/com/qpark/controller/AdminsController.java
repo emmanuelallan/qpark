@@ -1,130 +1,133 @@
 package com.qpark.controller;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import com.qpark.DatabaseConnection;
+import com.qpark.dao.AdminDAO;
+import com.qpark.dao.BookingDAO;
+import com.qpark.dao.DriverDAO;
+import com.qpark.dao.ParkingAreaDAO;
+import com.qpark.model.Admin;
+import com.qpark.model.Booking;
+import jakarta.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
 
-import com.qpark.dao.AdminDAO;
-import com.qpark.model.Admin;
-import com.qpark.model.DashboardStats;
-
-@WebServlet(name = "AdminsController", value = "/admin")
+@WebServlet(name = "AdminsController", value = "/admin/*")
 public class AdminsController extends HttpServlet {
-	
-    
-	
+	private static final long serialVersionUID = 1L;
+	private AdminDAO adminDAO;
+	private BookingDAO bookingDAO;
+	private ParkingAreaDAO parkingAreaDAO;
+	private DriverDAO driverDAO;
+	public void init() throws ServletException {
+		super.init();
+
+		try {
+			Connection connection = DatabaseConnection.getConnection();
+			adminDAO = new AdminDAO(connection);
+			bookingDAO = new BookingDAO(connection);
+			parkingAreaDAO = new ParkingAreaDAO(connection);
+			driverDAO = new DriverDAO(connection);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 	 protected void doGet(HttpServletRequest request, HttpServletResponse response)
 	            throws ServletException, IOException {
-		 
-		  String action = request.getServletPath();
+		  String action = request.getPathInfo();
 
-	        switch (action) {
-	            case "/logout":
-	                logout(request, response);
-	                break;
-	            // ...
-	            default:
-	                showLoginForm(request, response);
-	                break;
-	        }
-		 
-	        HttpSession session = request.getSession();
-	        Admin admin = (Admin) session.getAttribute("admin");
-	        
-	        if (admin != null) {
-	        	try {
-					showDashboard(request, response);
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ServletException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        	//request.getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
-	        } else {
-	            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
-	        }
+		  try {
+			  if(action == null) {
+				  showDashboard(request, response);
+			  }else{
+				  if (action.equals("/logout")) {
+					  logout(request, response);
+				  } else {
+					  showLoginForm(request, response);
+				  }
+			  }
+		  } catch (SQLException | ClassNotFoundException e) {
+			  e.printStackTrace();
+		  }
 	    }
 	 
-	   protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException {
-	        String email = request.getParameter("email");
-	        String password = request.getParameter("password");
-	        
-	        if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-	            request.setAttribute("errorMessage", "Please enter both email and password.");
-	            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
-	            return;
-	        }
-	        
+	   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	        String action = request.getPathInfo();
+
 	        try {
-	        	AdminDAO adminDAO = new AdminDAO();
-				if (adminDAO.checkAdminCredentials(email, password)) {
-				    // Set session variable to indicate that the user is logged in
-				    HttpSession session = request.getSession();
-				    Admin admin = new Admin(email, password);
-				    session.setAttribute("admin", admin);
-				    
-				    // Redirect to the dashboard page
-				    showDashboard(request, response);
-				   // request.getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
-				
+				if (action.equals("/login")) {
+					login(request, response);
 				} else {
-				    // Display error message to the user
-				    request.setAttribute("errorMessage", "Wrong email or password.");
-				    request.getRequestDispatcher("views/login.jsp").forward(request, response);
+					response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ServletException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-	   }
-	   
-	   protected void showLoginForm(HttpServletRequest request, HttpServletResponse response)
-		        throws ServletException, IOException {
+	        } catch (SQLException | ClassNotFoundException ex) {
+	            throw new ServletException(ex);
+	        }
+	    }
+
+		private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
+	        Admin admin = adminDAO.login(request.getParameter("email"), request.getParameter("password"));
+			System.out.println(admin);
+			if (admin != null) {
+				HttpSession session = request.getSession();
+				session.setAttribute("admin", admin);
+
+				showDashboard(request, response);
+	        } else {
+	            request.setAttribute("error", "Incorrect email or password.");
+	            request.getRequestDispatcher("/views/login.jsp").forward(request, response);
+	        }
+	    }
+
+	   protected void showLoginForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		    request.getRequestDispatcher("/views/login.jsp").forward(request, response);
 		}
-	   
-	   private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	        request.getSession().invalidate();
-	        
-		    request.getRequestDispatcher("views/login.jsp").forward(request, response);
-	    }
-	   
-	    private void showDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, SQLException {
-	        // Fetch statistics from database
-	    	AdminDAO adminDAO = new AdminDAO();
-	        DashboardStats stats;
-	        try {
-	            stats = adminDAO.getDashboardStats();
-	        } catch (SQLException e) {
-	            throw new ServletException("Error fetching dashboard statistics", e);
-	        }
 
-	        // set the statistics as an attribute of the request object
-	        request.setAttribute("stats", stats);
+		private void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			HttpSession session = request.getSession(false);
+			if (session != null) {
+				session.invalidate(); // Invalidate the session
+			}
+			// Redirect to the login page
+			response.sendRedirect(request.getContextPath() + "/admin/login");
+		}
 
+	private void showDashboard(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ClassNotFoundException, SQLException {
+			//get admin from session
+			HttpSession session = request.getSession(false);
+			Admin admin = (Admin) session.getAttribute("admin");
+
+			// get latest bookings
+			List<Booking> bookings = bookingDAO.getLatestBookings();
+
+			// get bookings count
+			int totalBookings = bookingDAO.getBookingCount();
+
+			// get total amount of bookings
+			BigDecimal totalAmount = bookingDAO.getTotalAmount();
+
+			// get parking areas count
+			int parkingAreasCount = parkingAreaDAO.getParkingAreaCount();
+
+			// get drivers count
+			int driversCount = driverDAO.getDriverCount();
+
+			// send to dashboard
+			request.setAttribute("admin", admin);
+			request.setAttribute("bookingList", bookings);
+			request.setAttribute("totalBookings", totalBookings);
+			request.setAttribute("totalAmount", totalAmount);
+			request.setAttribute("parkingAreasCount", parkingAreasCount);
+			request.setAttribute("driversCount", driversCount);
 	        request.getRequestDispatcher("/views/dashboard.jsp").forward(request, response);
 	    }
 

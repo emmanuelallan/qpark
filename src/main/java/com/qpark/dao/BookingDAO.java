@@ -94,4 +94,32 @@ public class BookingDAO {
         statement.close();
         return bookings;
     }
+
+    // find the latest bookings and limit to 5
+    public List<Booking> getLatestBookings() throws SQLException {
+        String sql = "SELECT * FROM bookings ORDER BY id DESC LIMIT 5";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        List<Booking> bookings = new ArrayList<>();
+        while (resultSet.next()){
+            Booking booking = new Booking(
+                    resultSet.getInt("id"),
+                    resultSet.getInt("parking_slot_id"),
+                    resultSet.getInt("vehicle_id"),
+                    resultSet.getInt("current_driver_id"),
+                    resultSet.getBigDecimal("amount"),
+                    resultSet.getTime("check_in"),
+                    resultSet.getTime("check_out"),
+                    resultSet.getTime("delay"),
+                    resultSet.getBigDecimal("fine"),
+                    resultSet.getString("status"),
+                    resultSet.getString("payment_status"),
+                    resultSet.getTime("booking_duration")
+            );
+            bookings.add(booking);
+        }
+        resultSet.close();
+        statement.close();
+        return bookings;
+    }
 }
