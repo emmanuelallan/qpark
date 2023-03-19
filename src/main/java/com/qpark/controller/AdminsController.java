@@ -76,7 +76,6 @@ public class AdminsController extends HttpServlet {
 
 		private void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException, ClassNotFoundException {
 	        Admin admin = adminDAO.login(request.getParameter("email"), request.getParameter("password"));
-			System.out.println(admin);
 			if (admin != null) {
 				HttpSession session = request.getSession();
 				session.setAttribute("admin", admin);

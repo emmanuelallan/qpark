@@ -12,9 +12,9 @@ public class ParkingAreaDAO {
         this.connection = connection;
     }
 
-    public void create(ParkingArea parkingArea) throws SQLException {
+    public ParkingArea create(ParkingArea parkingArea) throws SQLException {
         String query = "INSERT INTO parking_areas (capacity, image, location, price, name, status, fine, opening_time, closing_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement = connection.prepareStatement(query);
+        PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
         statement.setInt(1, parkingArea.getCapacity());
         statement.setString(2, parkingArea.getImage());
         statement.setString(3, parkingArea.getLocation());
@@ -25,7 +25,14 @@ public class ParkingAreaDAO {
         statement.setTime(8, parkingArea.getOpeningTime());
         statement.setTime(9, parkingArea.getClosingTime());
         statement.executeUpdate();
+
+        ResultSet resultSet = statement.getGeneratedKeys();
+        if (resultSet.next()) {
+            parkingArea.setId(resultSet.getInt(1));
+        }
+        resultSet.close();
         statement.close();
+        return parkingArea;
     }
 
     public void update(ParkingArea parkingArea) throws SQLException {

@@ -26,6 +26,7 @@ import java.util.UUID;
 )
 public class ParkingAreasController extends HttpServlet {
     private ParkingAreaDAO parkingAreaDAO;
+    private ParkingSlotDAO parkingSlotDAO;
 
     public void init() throws ServletException {
         super.init();
@@ -33,6 +34,7 @@ public class ParkingAreasController extends HttpServlet {
         try {
             Connection connection = DatabaseConnection.getConnection();
             parkingAreaDAO = new ParkingAreaDAO(connection);
+            parkingSlotDAO = new ParkingSlotDAO(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -122,11 +124,12 @@ public class ParkingAreasController extends HttpServlet {
         String fileExtension = fileName.substring(fileName.lastIndexOf("."));
         String image = UUID.randomUUID() + fileExtension;
         String savePath = getServletContext().getRealPath("/uploads") + File.separator + image;
-        System.out.println(savePath);
         new File(savePath);
         filePart.write(savePath);
         ParkingArea newParkingArea = new ParkingArea(1, capacity, image, location, price, name, status, fine, opening_time, closing_time);
-        parkingAreaDAO.create(newParkingArea);
+        ParkingArea createdParkingSlot = parkingAreaDAO.create(newParkingArea);
+        // create parking slots based on capacity
+        parkingSlotDAO.create(createdParkingSlot.getId(), capacity);
         response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=create");
     }
 
@@ -159,6 +162,9 @@ public class ParkingAreasController extends HttpServlet {
 
         ParkingArea parkingAreaToUpdate = new ParkingArea(id, capacity, image, location, price, name, status, fine, opening_time, closing_time);
         parkingAreaDAO.update(parkingAreaToUpdate);
+        // delete parking slots of the parking area and then create based on capacity
+        parkingSlotDAO.delete(id);
+        parkingSlotDAO.create(id, capacity);
         response.sendRedirect(request.getContextPath() + "/parking_area" + "?success=update");
     }
 

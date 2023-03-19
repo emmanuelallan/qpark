@@ -134,102 +134,31 @@
               <div class="card">
                 <div class="card-body">
                   <h5 class="mb-3">Select a parking slot</h5>
-                  <div class="row">
+                  <div class="row mb-3">
                     <div class="col">
                           <img src="${pageContext.request.contextPath}/uploads/${image}" alt="${name}" class="img-fluid rounded-3" />
                     </div>
                   </div>
                   <div class="row g-6">
-                    <div
-                            class="col-md-2 col-lg-2 col-4 mb-3 position-relative"
-                    >
-                      <label class="slot-label" id="slot-1">NT01</label>
-                      <input
-                              type="radio"
-                              name="slot"
-                              id="slot-2"
-                              value="1"
-                              class="slot-radio"
-                      />
-                      <div class="slot">
-                        <div class="slot-inner">NT01</div>
-                      </div>
-                    </div>
-                    <div
-                            class="col-md-2 col-lg-2 col-4 mb-3 position-relative"
-                    >
-                      <label class="slot-label">NT01</label>
-                      <input
-                              type="radio"
-                              name="slot"
-                              id="slot-3"
-                              value="1"
-                              class="slot-radio"
-                      />
-                      <div class="slot">
-                        <div class="slot-inner">NT01</div>
-                      </div>
-                    </div>
-                    <div
-                            class="col-md-2 col-lg-2 col-4 mb-3 position-relative"
-                    >
-                      <label class="slot-label">NT01</label>
-                      <input
-                              type="radio"
-                              name="slot"
-                              id="slot-4"
-                              value="1"
-                              class="slot-radio"
-                      />
-                      <div class="slot">
-                        <div class="slot-inner">NT01</div>
-                      </div>
-                    </div>
-                    <div
-                            class="col-md-2 col-lg-2 col-4 mb-3 position-relative"
-                    >
-                      <label class="slot-label">NT01</label>
-                      <input
-                              type="radio"
-                              name="slot"
-                              id="slot-5"
-                              value="1"
-                              class="slot-radio"
-                      />
-                      <div class="slot">
-                        <div class="slot-inner">NT01</div>
-                      </div>
-                    </div>
-                    <div
-                            class="col-md-2 col-lg-2 col-4 mb-3 position-relative"
-                    >
-                      <label class="slot-label">NT01</label>
-                      <input
-                              type="radio"
-                              name="slot"
-                              id="slot-6"
-                              value="1"
-                              class="slot-radio"
-                      />
-                      <div class="slot">
-                        <div class="slot-inner">NT01</div>
-                      </div>
-                    </div>
-                    <div
-                            class="col-md-2 col-lg-2 col-4 mb-3 position-relative"
-                    >
-                      <label class="slot-label">NT01</label>
-                      <input
-                              type="radio"
-                              name="slot"
-                              id="slot-7"
-                              value="1"
-                              class="slot-radio"
-                      />
-                      <div class="slot">
-                        <div class="slot-inner">NT01</div>
-                      </div>
-                    </div>
+
+<%--                    <c:if test="parkingSlots != null">--%>
+                      <c:forEach items="${parkingSlots}" var="slot">
+                        <div class="col-md-2 col-lg-2 col-4 mb-3 position-relative">
+                          <label class="slot-label" id="${slot.name}">${slot.name}</label>
+                          <input
+                            type="radio"
+                            name="${slot.name}"
+                            id="${slot.name}"
+                            value="${slot.id}"
+                            class="slot-radio"
+                          />
+                          <div class="slot">
+                            <div class="slot-inner">${slot.name}</div>
+                          </div>
+                        </div>
+                      </c:forEach>
+<%--                    </c:if>--%>
+
                   </div>
                 </div>
               </div>

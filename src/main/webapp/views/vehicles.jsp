@@ -94,7 +94,10 @@
                   ${vehicle.brand}
                 </td>
                 <td>
-                  ${vehicle.color}
+                  <span style="background: ${vehicle.color};"
+                        class="badge text-white">
+                    ${vehicle.color}
+                  </span>
                 </td>
                 <td>
                     <span class="badge bg-soft-dark text-white">
