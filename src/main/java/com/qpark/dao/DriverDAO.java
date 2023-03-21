@@ -1,9 +1,12 @@
 package com.qpark.dao;
 import com.qpark.model.Driver;
+import com.qpark.model.Vehicle;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DriverDAO {
     private final Connection connection;
@@ -92,24 +95,47 @@ public class DriverDAO {
     }
 
     public Driver findByLicence(String drivingLicence) throws SQLException {
-        String sql = "SELECT * FROM drivers WHERE driving_licence = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
+        String query = "SELECT d.id, d.name, d.avatar, d.email, d.phone, d.driving_licence, d.otp, v.id AS vehicle_id, v.brand, v.image, v.color, v.plate, v.type "
+                + "FROM drivers d "
+                + "JOIN vehicles v ON d.id = v.driver_id "
+                + "WHERE d.driving_licence = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
         statement.setString(1, drivingLicence);
         ResultSet resultSet = statement.executeQuery();
+
         Driver driver = null;
-        if (resultSet.next()) {
-            driver = new Driver(
-                    resultSet.getInt("id"),
-                    resultSet.getString("name"),
-                    resultSet.getString("avatar"),
-                    resultSet.getString("email"),
-                    resultSet.getString("phone"),
-                    resultSet.getString("driving_licence"),
-                    resultSet.getString("otp")
-            );
+        Map<Integer, List<Vehicle>> vehiclesByDriverId = new HashMap<>();
+        while (resultSet.next()) {
+            if (driver == null) {
+                driver = new Driver(
+                        resultSet.getInt("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("avatar"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone"),
+                        resultSet.getString("driving_licence"),
+                        resultSet.getString("otp")
+                );
+            }
+            int vehicleId = resultSet.getInt("vehicle_id");
+            String brand = resultSet.getString("brand");
+            String image = resultSet.getString("image");
+            String color = resultSet.getString("color");
+            String plate = resultSet.getString("plate");
+            String type = resultSet.getString("type");
+            Vehicle vehicle = new Vehicle(vehicleId, brand, image, color, plate, type, driver.getId());
+            int driverId = resultSet.getInt("id");
+            List<Vehicle> vehiclesForDriver = vehiclesByDriverId.getOrDefault(driverId, new ArrayList<>());
+            vehiclesForDriver.add(vehicle);
+            vehiclesByDriverId.put(driverId, vehiclesForDriver);
         }
         resultSet.close();
         statement.close();
+
+        if (driver != null) {
+            driver.setVehicles(vehiclesByDriverId.get(driver.getId()));
+        }
+
         return driver;
     }
 

@@ -1,5 +1,7 @@
 package com.qpark.model;
 
+import java.util.List;
+
 public class Driver {
     private int id;
     private String name;
@@ -8,6 +10,7 @@ public class Driver {
     private String phone;
     private String drivingLicence;
     private String otp;
+    private List<Vehicle> vehicles;
 
     public Driver(int id, String name, String avatar, String email, String phone, String drivingLicence, String otp) {
         this.id = id;
@@ -83,6 +86,14 @@ public class Driver {
                 ", drivingLicence='" + drivingLicence + '\'' +
                 ", otp='" + otp + '\'' +
                 '}';
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<Vehicle> vehicles) {
+        this.vehicles = vehicles;
     }
 }
 

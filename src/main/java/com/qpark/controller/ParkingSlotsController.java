@@ -18,7 +18,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet(name = "ParkingSlotsController", value = "/parking_slot")
+@WebServlet(name = "ParkingSlotsController", value = "/parking_slot/*")
 public class ParkingSlotsController extends HttpServlet {
 
     private ParkingAreaDAO parkingAreaDAO;
@@ -41,16 +41,32 @@ public class ParkingSlotsController extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getPathInfo();
         try {
-            bookParkingSlot(request, response);
+            switch (action) {
+                case "/book":
+                    bookParkingSlot(request, response);
+                    break;
+                case "/search":
+                    searchDriverByLicence(request, response);
+                    break;
+                default:
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                    break;
+            }
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getPathInfo();
         try {
-            viewParkingArea(request, response);
+            if(action == null || action.equals("/")){
+                viewParkingArea(request, response);
+            }else{
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            }
 
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -61,7 +77,6 @@ public class ParkingSlotsController extends HttpServlet {
         int parkingAreaId = Integer.parseInt(request.getParameter("id"));
         ParkingArea parkingArea = parkingAreaDAO.findById(parkingAreaId);
         List<ParkingSlot> parkingSlots = parkingSlotDAO.getParkingSlotsByParkingArea(parkingAreaId);
-        System.out.println(parkingSlots);
         request.setAttribute("parkingArea", parkingArea);
         request.setAttribute("parkingSlots", parkingSlots);
         request.getRequestDispatcher("/views/parking_slot.jsp").forward(request, response);
@@ -76,8 +91,18 @@ public class ParkingSlotsController extends HttpServlet {
 
     private void searchDriverByLicence(HttpServletRequest request, HttpServletResponse response) throws SQLException, ServletException, IOException {
         String drivingLicence = request.getParameter("drivingLicence");
+        int parkingAreaId = Integer.parseInt(request.getParameter("parkingAreaId"));
         Driver driver = driverDAO.findByLicence(drivingLicence);
-        request.setAttribute("driver", driver);
-        request.getRequestDispatcher("/views/parking_slot.jsp").forward(request, response);
+        System.out.println(driver);
+        if (driver == null) {
+            response.sendRedirect(request.getContextPath() + "/parking_slot?id=" + parkingAreaId + "&error=not_found");
+        } else {
+            request.setAttribute("driver", driver);
+            ParkingArea parkingArea = parkingAreaDAO.findById(parkingAreaId);
+            List<ParkingSlot> parkingSlots = parkingSlotDAO.getParkingSlotsByParkingArea(parkingAreaId);
+            request.setAttribute("parkingArea", parkingArea);
+            request.setAttribute("parkingSlots", parkingSlots);
+            request.getRequestDispatcher("/views/parking_slot.jsp").forward(request, response);
+        }
     }
 }

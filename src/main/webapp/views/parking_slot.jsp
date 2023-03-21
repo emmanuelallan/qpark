@@ -127,7 +127,6 @@
 
     <main class="py-6 bg-surface-secondary">
       <div class="container">
-        <form>
           <!-- stats start -->
           <div class="row g-6">
             <div class="col-xl-8">
@@ -165,7 +164,12 @@
             </div>
             <div class="col-xl-4">
               <div class="vstack gap-6">
-                <div class="card">
+                <c:if test="${param.error != null}">
+                  <div class="alert alert-danger" role="alert">
+                    <i class="bi bi-exclamation-triangle"></i> Driver not found
+                  </div>
+                </c:if>
+                <form class="card" action="${pageContext.request.contextPath}/parking_slot/search?parkingAreaId=${id}" method="post">
                   <div class="card-body">
                     <h5 class="mb-4">Search existing driver</h5>
                     <div
@@ -177,18 +181,65 @@
                             type="text"
                             class="form-control"
                             placeholder="Search driver"
+                            name="drivingLicense"
+                            required
                     />
                     </div>
                     <div class="text-end mt-3">
                       <button
-                              type="button"
+                              type="submit"
                               class="btn btn-sm btn-primary w-100"
                       >
                         Search
                       </button>
                     </div>
                   </div>
-                </div>
+                </form>
+
+                <c:if test="${driver != null}">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="container-fluid max-w-screen-xl">
+                        <div class="row g-0">
+                          <div class="col-auto">
+                            <a href="#" class="avatar w-40 h-40 border border-body border-4 rounded-circle shadow mt-n16">
+                              <img alt="${driver.name}" src="${pageContext.request.contextPath}/uploads/${driver.avatar}" class="rounded-circle">
+                            </a>
+                          </div>
+                          <div class="col ps-4 pt-4">
+                            <h6 class="text-xs text-lowercase text-muted mb-1">${driver.email}</h6>
+                            <h1 class="h2">${driver.name}</h1>
+                            <div class="d-flex gap-2 flex-wrap mt-3 d-none d-sm-block">
+                              <a href="#" class="bg-white bg-opacity-50 bg-opacity-100-hover border rounded px-3 py-1 font-semibold text-heading text-xs">
+                                UI/UX
+                              </a>
+                              <a href="#" class="bg-white bg-opacity-50 bg-opacity-100-hover border rounded px-3 py-1 font-semibold text-heading text-xs">
+                                Mobile Apps
+                              </a>
+                              <a href="#" class="bg-white bg-opacity-50 bg-opacity-100-hover border rounded px-3 py-1 font-semibold text-heading text-xs">
+                                UI Research
+                              </a>
+                            </div>
+                            <div class="vstack gap-4">
+                              <div class="d-flex align-items-center">
+                                <i class="bi bi-telephone-forward me-2 text-muted"></i>
+                                <a href="#" class="text-sm text-heading text-primary-hover">
+                                  ${driver.phone}
+                                </a>
+                              </div>
+                              <div class="d-flex align-items-center">
+                                <i class="bi bi-ev-front me-2 text-muted"></i>
+                                <a href="#" class="text-sm text-heading text-primary-hover">
+                                    ${driver.drivingLicense}
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </c:if>
 
                 <div class="card">
                   <div class="card-body">
@@ -338,7 +389,6 @@
               </div>
             </div>
           </div>
-        </form>
       </div>
     </main>
   </div>
