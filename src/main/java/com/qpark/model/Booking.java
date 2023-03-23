@@ -10,14 +10,14 @@ public class Booking {
     private int currentDriverId;
     private Time checkIn;
     private Time checkOut;
-    private Time delay;
+    private int delay;
     private BigDecimal amount;
     private BigDecimal fine;
     private String status;
     private String paymentStatus;
-    private Time bookingDuration;
+    private int bookingDuration;
 
-    public Booking(int id, int parkingSlotId, int vehicleId, int currentDriverId, BigDecimal amount, Time checkIn, Time checkOut, Time delay, BigDecimal fine, String status, String paymentStatus, Time bookingDuration) {
+    public Booking(int id, int parkingSlotId, int vehicleId, int currentDriverId, BigDecimal amount, Time checkIn, Time checkOut, int delay, BigDecimal fine, String status, String paymentStatus, int bookingDuration) {
         this.id = id;
         this.parkingSlotId = parkingSlotId;
         this.vehicleId = vehicleId;
@@ -80,11 +80,11 @@ public class Booking {
         this.checkOut = checkOut;
     }
 
-    public Time getDelay() {
+    public int getDelay() {
         return delay;
     }
 
-    public void setDelay(Time delay) {
+    public void setDelay(int delay) {
         this.delay = delay;
     }
 
@@ -120,11 +120,11 @@ public class Booking {
         this.paymentStatus = paymentStatus;
     }
 
-    public Time getBookingDuration() {
+    public int getBookingDuration() {
         return bookingDuration;
     }
 
-    public void setBookingDuration(Time bookingDuration) {
+    public void setBookingDuration(int bookingDuration) {
         this.bookingDuration = bookingDuration;
     }
 }

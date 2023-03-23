@@ -55,6 +55,24 @@ public class ParkingSlotDAO {
 		return parkingSlots;
 	}
 
+	// get parking slot by id
+	public ParkingSlot findById(int id) throws SQLException {
+	    String sql = "SELECT * FROM parking_slots WHERE id = ?";
+	    PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setInt(1, id);
+		ResultSet rs = statement.executeQuery();
+		ParkingSlot parkingSlot = null;
+		if (rs.next()) {
+			int parkingAreaId = rs.getInt("parking_area_id");
+			String name = rs.getString("name");
+			String status = rs.getString("status");
+			parkingSlot = new ParkingSlot(id, parkingAreaId, name, status);
+		}
+		rs.close();
+		statement.close();
+		return parkingSlot;
+	}
+
 	//Delete all parking Slots of a parking area
 	public void delete(int parkingAreaID) throws SQLException {
         String sqlDeleteParkingSlots = "DELETE FROM parking_slots WHERE parking_area_id = ?";
@@ -68,5 +86,15 @@ public class ParkingSlotDAO {
         List<ParkingSlot> parkingSlots = getParkingSlotsByParkingArea(ParkingAreaId);
         boolean bookingExists = parkingSlots.stream().anyMatch(slot -> slot.getStatus().equals("booked"));
 		return !bookingExists;
+	}
+
+	// change status of parking slot
+	public void changeStatus(int parkingSlotId, String status) throws SQLException {
+	    String sql = "UPDATE parking_slots SET status = ? WHERE id = ?";
+	    PreparedStatement statement = connection.prepareStatement(sql);
+		statement.setString(1, status);
+		statement.setInt(2, parkingSlotId);
+		statement.executeUpdate();
+		statement.close();
 	}
 }

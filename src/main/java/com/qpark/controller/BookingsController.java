@@ -2,7 +2,11 @@ package com.qpark.controller;
 
 import com.qpark.DatabaseConnection;
 import com.qpark.dao.BookingDAO;
+import com.qpark.dao.DriverDAO;
+import com.qpark.dao.ParkingAreaDAO;
 import com.qpark.model.Booking;
+import com.qpark.model.Driver;
+import com.qpark.model.ParkingArea;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -36,6 +40,18 @@ public class BookingsController extends HttpServlet {
             List<Booking> bookingList = bookingDAO.findAll();
             request.setAttribute("bookingList", bookingList);
             request.getRequestDispatcher("/views/booking.jsp").forward(request, response);
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            String status = request.getParameter("status");
+            int id = Integer.parseInt(request.getParameter("bookingId"));
+
+            bookingDAO.updateStatus(id, status);
+            response.sendRedirect(request.getContextPath() + "/booking?id" + "&success=1");
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }

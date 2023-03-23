@@ -24,11 +24,11 @@ public class BookingDAO {
         statement.setBigDecimal(4, booking.getAmount());
         statement.setTime(5, booking.getCheckIn());
         statement.setTime(6, booking.getCheckOut());
-        statement.setTime(7, booking.getDelay());
+        statement.setInt(7, booking.getDelay());
         statement.setBigDecimal(8, booking.getFine());
         statement.setString(9, booking.getStatus());
         statement.setString(10, booking.getPaymentStatus());
-        statement.setTime(11, booking.getBookingDuration());
+        statement.setInt(11, booking.getBookingDuration());
         statement.executeUpdate();
         statement.close();
     }
@@ -82,11 +82,11 @@ public class BookingDAO {
                     resultSet.getBigDecimal("amount"),
                     resultSet.getTime("check_in"),
                     resultSet.getTime("check_out"),
-                    resultSet.getTime("delay"),
+                    resultSet.getInt("delay"),
                     resultSet.getBigDecimal("fine"),
                     resultSet.getString("status"),
                     resultSet.getString("payment_status"),
-                    resultSet.getTime("booking_duration")
+                    resultSet.getInt("booking_duration")
             );
             bookings.add(booking);
         }
@@ -110,11 +110,11 @@ public class BookingDAO {
                     resultSet.getBigDecimal("amount"),
                     resultSet.getTime("check_in"),
                     resultSet.getTime("check_out"),
-                    resultSet.getTime("delay"),
+                    resultSet.getInt("delay"),
                     resultSet.getBigDecimal("fine"),
                     resultSet.getString("status"),
                     resultSet.getString("payment_status"),
-                    resultSet.getTime("booking_duration")
+                    resultSet.getInt("booking_duration")
             );
             bookings.add(booking);
         }

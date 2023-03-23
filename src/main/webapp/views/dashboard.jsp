@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
@@ -48,7 +49,7 @@
                                 class="h6 font-semibold text-muted text-sm d-block mb-2"
                         >Earnings</span
                         >
-                                <span class="h3 font-bold mb-0">KES. ${totalAmount}</span>
+                                <span class="h3 font-bold mb-0"><span class="fs-xs font-regular text-xs">KES.</span> ${totalAmount}</span>
                             </div>
                             <div class="col-auto">
                                 <div
@@ -164,7 +165,6 @@
                     <tr>
                         <th scope="col">Check In</th>
                         <th scope="col">Driver</th>
-                        <th scope="col">Parking Area</th>
                         <th scope="col">Slot No.</th>
                         <th scope="col">Vehicle</th>
                         <th scope="col">Status</th>
@@ -179,10 +179,9 @@
                         <c:forEach var="booking" items="${bookingList}">
                             <tr>
                                 <td><fmt:formatDate value="${booking.checkIn}" pattern="hh:mm a" /></td>
-                                <td>${booking.driver}</td>
-                                <td>${booking.parking}</td>
-                                <td>${booking.slotNo}</td>
-                                <td>${booking.plate}</td>
+                                <td>${booking.currentDriverId}</td>
+                                <td>${booking.parkingSlotId}</td>
+                                <td>${booking.vehicleId}</td>
                                 <td>
                                     <c:choose>
                                         <c:when test="${booking.status eq 'Active'}">
@@ -193,7 +192,7 @@
                                         </c:when>
                                         <c:otherwise>
                         <span class="badge badge-lg badge-dot">
-                          <i class="bg-danger"></i>
+                          <i class="bg-dark"></i>
                           ${booking.status}
                         </span>
                                         </c:otherwise>
@@ -202,18 +201,26 @@
                                 <td>
                                     <span class="text-sm font-bold">Ksh. ${booking.amount}</span>
                                 </td>
-                                <td>${booking.duration}</td>
+                                <td>${booking.bookingDuration} hours</td>
                                 <td class="text-end">
                                     <c:choose>
                                         <c:when test="${booking.status eq 'Active'}">
-                                            <button class="btn btn-sm btn-outline-success">
-                                                <i class="bi bi-check2-all"></i>
-                                            </button>
+                                            <form action="${pageContext.request.contextPath}/booking" method="post">
+                                                <input type="hidden" name="bookingId" value="${booking.id}">
+                                                <input type="hidden" name="status" value="Completed">
+                                                <button type="submit" class="btn btn-sm btn-outline-success">
+                                                    <i class="bi bi-check2-all"></i>
+                                                </button>
+                                            </form>
                                         </c:when>
                                         <c:otherwise>
-                                            <button class="btn btn-sm btn-outline-success">
-                                                <i class="bi bi-arrow-repeat"></i>
-                                            </button>
+                                            <form action="${pageContext.request.contextPath}/booking" method="post">
+                                                <input type="hidden" name="bookingId" value="${booking.id}">
+                                                <input type="hidden" name="status" value="Active">
+                                                <button type="submit" class="btn btn-sm btn-outline-dark">
+                                                    <i class="bi bi-arrow-repeat"></i>
+                                                </button>
+                                            </form>
                                         </c:otherwise>
                                     </c:choose>
                                 </td>

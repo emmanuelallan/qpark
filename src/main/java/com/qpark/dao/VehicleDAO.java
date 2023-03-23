@@ -12,17 +12,25 @@ public class VehicleDAO {
         this.connection = connection;
     }
 
-    public void create(Vehicle vehicle) throws SQLException {
+    public Vehicle create(Vehicle vehicle) throws SQLException {
         String sql = "INSERT INTO vehicles (brand, image, color, plate, type, driver_id) VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement = connection.prepareStatement(sql);
+        PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         statement.setString(1, vehicle.getBrand());
         statement.setString(2, vehicle.getImage());
         statement.setString(3, vehicle.getColor());
         statement.setString(4, vehicle.getPlate());
         statement.setString(5, vehicle.getType());
        statement.setInt(6, vehicle.getDriverId());
-        statement.executeUpdate();
+        Vehicle newVehicle = null;
+
+        if (statement.executeUpdate() > 0) {
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                newVehicle = new Vehicle(resultSet.getInt(1), vehicle.getBrand(), vehicle.getImage(), vehicle.getColor(), vehicle.getPlate(), vehicle.getType(), vehicle.getDriverId());
+            }
+        }
         statement.close();
+        return newVehicle;
     }
 
     public void update(Vehicle vehicle) throws SQLException {

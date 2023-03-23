@@ -15,17 +15,25 @@ public class DriverDAO {
         this.connection = connection;
     }
 
-    public void create(Driver driver) throws SQLException {
+    public Driver create(Driver driver) throws SQLException {
         String sql = "INSERT INTO drivers (name, avatar, email, phone, driving_licence, otp) VALUES (?, ?, ?, ?, ?, ?)";
-        PreparedStatement statement = connection.prepareStatement(sql);
+        PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         statement.setString(1, driver.getName());
         statement.setString(2, driver.getAvatar());
         statement.setString(3, driver.getEmail());
         statement.setString(4, driver.getPhone());
         statement.setString(5, driver.getDrivingLicence());
         statement.setString(6, driver.getOtp());
-        statement.executeUpdate();
+
+        Driver newDriver = null;
+        if (statement.executeUpdate() > 0) {
+            ResultSet resultSet = statement.getGeneratedKeys();
+            if (resultSet.next()) {
+                newDriver = new Driver(resultSet.getInt(1), driver.getName(), driver.getAvatar(), driver.getEmail(), driver.getPhone(), driver.getDrivingLicence(), driver.getOtp());
+            }
+        }
         statement.close();
+        return newDriver;
     }
 
     public void update(Driver driver) throws SQLException {
@@ -94,48 +102,25 @@ public class DriverDAO {
         return drivers;
     }
 
-    public Driver findByLicence(String drivingLicence) throws SQLException {
-        String query = "SELECT d.id, d.name, d.avatar, d.email, d.phone, d.driving_licence, d.otp, v.id AS vehicle_id, v.brand, v.image, v.color, v.plate, v.type "
-                + "FROM drivers d "
-                + "JOIN vehicles v ON d.id = v.driver_id "
-                + "WHERE d.driving_licence = ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, drivingLicence);
+    public Driver findByLicence(String licence) throws SQLException {
+        String sql = "SELECT * FROM drivers WHERE driving_licence = ?";
+        PreparedStatement statement = connection.prepareStatement(sql);
+        statement.setString(1, licence);
         ResultSet resultSet = statement.executeQuery();
-
         Driver driver = null;
-        Map<Integer, List<Vehicle>> vehiclesByDriverId = new HashMap<>();
-        while (resultSet.next()) {
-            if (driver == null) {
-                driver = new Driver(
-                        resultSet.getInt("id"),
-                        resultSet.getString("name"),
-                        resultSet.getString("avatar"),
-                        resultSet.getString("email"),
-                        resultSet.getString("phone"),
-                        resultSet.getString("driving_licence"),
-                        resultSet.getString("otp")
-                );
-            }
-            int vehicleId = resultSet.getInt("vehicle_id");
-            String brand = resultSet.getString("brand");
-            String image = resultSet.getString("image");
-            String color = resultSet.getString("color");
-            String plate = resultSet.getString("plate");
-            String type = resultSet.getString("type");
-            Vehicle vehicle = new Vehicle(vehicleId, brand, image, color, plate, type, driver.getId());
-            int driverId = resultSet.getInt("id");
-            List<Vehicle> vehiclesForDriver = vehiclesByDriverId.getOrDefault(driverId, new ArrayList<>());
-            vehiclesForDriver.add(vehicle);
-            vehiclesByDriverId.put(driverId, vehiclesForDriver);
+        if (resultSet.next()) {
+            driver = new Driver(
+                    resultSet.getInt("id"),
+                    resultSet.getString("name"),
+                    resultSet.getString("avatar"),
+                    resultSet.getString("email"),
+                    resultSet.getString("phone"),
+                    resultSet.getString("driving_licence"),
+                    resultSet.getString("otp")
+            );
         }
         resultSet.close();
         statement.close();
-
-        if (driver != null) {
-            driver.setVehicles(vehiclesByDriverId.get(driver.getId()));
-        }
-
         return driver;
     }
 
