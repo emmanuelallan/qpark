@@ -207,6 +207,7 @@
                                         <c:when test="${booking.status eq 'Active'}">
                                             <form action="${pageContext.request.contextPath}/booking" method="post">
                                                 <input type="hidden" name="bookingId" value="${booking.id}">
+                                                <input type="hidden" name="parkingSlotId" value="${booking.parkingSlotId}">
                                                 <input type="hidden" name="status" value="Completed">
                                                 <button type="submit" class="btn btn-sm btn-outline-success">
                                                     <i class="bi bi-check2-all"></i>
@@ -216,6 +217,7 @@
                                         <c:otherwise>
                                             <form action="${pageContext.request.contextPath}/booking" method="post">
                                                 <input type="hidden" name="bookingId" value="${booking.id}">
+                                                <input type="hidden" name="parkingSlotId" value="${booking.parkingSlotId}">
                                                 <input type="hidden" name="status" value="Active">
                                                 <button type="submit" class="btn btn-sm btn-outline-dark">
                                                     <i class="bi bi-arrow-repeat"></i>

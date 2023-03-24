@@ -10,13 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d6a94cd-5d43-405a-8d2c-0d5d0c5b5a8d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/main/webapp/views/parking_slot.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/main/webapp/views/parking_slot.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/controller/BookingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/controller/BookingsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/dao/ParkingSlotDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/dao/ParkingSlotDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/add_driver.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/add_driver.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/booking.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/booking.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +166,7 @@
       <workItem from="1679389150768" duration="3190000" />
       <workItem from="1679394994797" duration="21730000" />
       <workItem from="1679579226733" duration="5421000" />
-      <workItem from="1679653571208" duration="10081000" />
+      <workItem from="1679653571208" duration="11770000" />
     </task>
     <servers />
   </component>
