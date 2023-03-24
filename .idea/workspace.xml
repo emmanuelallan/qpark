@@ -10,26 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2d6a94cd-5d43-405a-8d2c-0d5d0c5b5a8d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sql" beforeDir="false" afterPath="$PROJECT_DIR$/db.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/src/main/webapp/views/parking_slot.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/main/webapp/views/parking_slot.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/controller/BookingsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/controller/BookingsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/controller/ParkingSlotsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/controller/ParkingSlotsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/dao/BookingDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/dao/BookingDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/dao/DriverDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/dao/DriverDAO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/dao/ParkingSlotDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/dao/ParkingSlotDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/dao/VehicleDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/dao/VehicleDAO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/model/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/model/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/qpark/model/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/qpark/model/Driver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/add_driver.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/add_driver.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/views/booking.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/booking.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/dashboard.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/views/parking_slot.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/views/parking_slot.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +55,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Admin/dev/school/qpark",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -93,7 +81,8 @@
         </artifact>
       </deployment>
       <server-settings>
-        <option name="BASE_DIRECTORY_NAME" value="7bef0cc3-29b1-4a41-8ea6-89fa67f6988d" />
+        <option name="BASE_DIRECTORY_NAME" value="99f5b6f9-ca77-418f-a75c-97732641177d" />
+        <option name="HTTP_PORT" value="8081" />
       </server-settings>
       <predefined_log_file enabled="true" id="Tomcat" />
       <predefined_log_file enabled="true" id="Tomcat Catalina" />
@@ -101,7 +90,7 @@
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
       <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="33435" />
+        <option name="DEBUG_PORT" value="50294" />
       </RunnerSettings>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
         <option name="USE_ENV_VARIABLES" value="true" />
@@ -182,6 +171,7 @@
       <workItem from="1679389150768" duration="3190000" />
       <workItem from="1679394994797" duration="21730000" />
       <workItem from="1679579226733" duration="5421000" />
+      <workItem from="1679653571208" duration="10081000" />
     </task>
     <servers />
   </component>

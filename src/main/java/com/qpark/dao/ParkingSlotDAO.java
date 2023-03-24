@@ -90,6 +90,7 @@ public class ParkingSlotDAO {
 
 	// change status of parking slot
 	public void changeStatus(int parkingSlotId, String status) throws SQLException {
+		status = status.equals("Completed") ? "unbooked" : "booked";
 	    String sql = "UPDATE parking_slots SET status = ? WHERE id = ?";
 	    PreparedStatement statement = connection.prepareStatement(sql);
 		statement.setString(1, status);

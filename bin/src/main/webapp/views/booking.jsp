@@ -1,8 +1,33 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
 <%-- main start --%>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <c:if test="${not empty param.success}">
+        <div class="alert alert-success" role="alert">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <p>
+                  ${
+                    param.success == '1' ? 'Status Updated Successfully' :
+                    ''
+                  }
+              </p>
+            </div>
+            <div class="flex-shrink-0 ms-3">
+              <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+            </div>
+          </div>
+        </div>
+      </c:if>
+    </div>
+  </div>
+</div>
 <!-- admin header start -->
 <header>
   <div class="container">
@@ -30,7 +55,6 @@
           <tr>
             <th scope="col">Check In</th>
             <th scope="col">Driver</th>
-            <th scope="col">Parking Area</th>
             <th scope="col">Slot No.</th>
             <th scope="col">Vehicle</th>
             <th scope="col">Status</th>
@@ -41,50 +65,58 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>11:00 AM</td>
-            <td>Noel Mungai</td>
-            <td>Gate E. Student Center</td>
-            <td>N11</td>
-            <td>KDJ 457C</td>
-            <td>
-                        <span class="badge badge-lg badge-dot">
-                          <i class="bg-warning"></i>
-                          Active
-                        </span>
-            </td>
-            <td>
-              <span class="text-sm font-bold">Ksh. 2,500</span>
-            </td>
-            <td>1 Hour</td>
-            <td class="text-end">
-              <button class="btn btn-sm btn-outline-success">
-                <i class="bi bi-check2-all"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>11:00 AM</td>
-            <td>Noel Mungai</td>
-            <td>Gate E. Student Center</td>
-            <td>N11</td>
-            <td>KDJ 457C</td>
-            <td>
+          <c:if test="${bookingList != null}">
+            <c:forEach var="booking" items="${bookingList}">
+              <tr>
+                <td><fmt:formatDate value="${booking.checkIn}" pattern="hh:mm a" /></td>
+                <td>${booking.currentDriverId}</td>
+                <td>${booking.parkingSlotId}</td>
+                <td>${booking.vehicleId}</td>
+                <td>
+                  <c:choose>
+                    <c:when test="${booking.status eq 'Active'}">
                         <span class="badge badge-lg badge-dot">
                           <i class="bg-success"></i>
-                          Complete
+                          ${booking.status}
                         </span>
-            </td>
-            <td>
-              <span class="text-sm font-bold">Ksh. 2,500</span>
-            </td>
-            <td>1 Hour</td>
-            <td class="text-end">
-              <button class="btn btn-sm btn-outline-dark">
-                <i class="bi bi-arrow-repeat"></i>
-              </button>
-            </td>
-          </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <span class="badge badge-lg badge-dot">
+                          <i class="bg-dark"></i>
+                          ${booking.status}
+                        </span>
+                    </c:otherwise>
+                  </c:choose>
+                </td>
+                <td>
+                  <span class="text-sm font-bold">Ksh. ${booking.amount}</span>
+                </td>
+                <td>${booking.bookingDuration} hours</td>
+                <td class="text-end">
+                  <c:choose>
+                    <c:when test="${booking.status eq 'Active'}">
+                      <form action="${pageContext.request.contextPath}/booking" method="post">
+                        <input type="hidden" name="bookingId" value="${booking.id}">
+                        <input type="hidden" name="status" value="Completed">
+                        <button type="submit" class="btn btn-sm btn-outline-success">
+                          <i class="bi bi-check2-all"></i>
+                        </button>
+                      </form>
+                    </c:when>
+                    <c:otherwise>
+                      <form action="${pageContext.request.contextPath}/booking" method="post">
+                        <input type="hidden" name="bookingId" value="${booking.id}">
+                        <input type="hidden" name="status" value="Active">
+                        <button type="submit" class="btn btn-sm btn-outline-dark">
+                          <i class="bi bi-arrow-repeat"></i>
+                        </button>
+                      </form>
+                    </c:otherwise>
+                  </c:choose>
+                </td>
+              </tr>
+            </c:forEach>
+          </c:if>
           </tbody>
         </table>
       </div>

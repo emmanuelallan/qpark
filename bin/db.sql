@@ -37,8 +37,6 @@ CREATE TABLE parking_slots (
     parking_area_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL,
-    type VARCHAR(255) NOT NULL,
-    location VARCHAR(255) NOT NULL,
     FOREIGN KEY (parking_area_id) REFERENCES parking_areas(id) ON DELETE CASCADE
 );
 
@@ -48,13 +46,13 @@ CREATE TABLE bookings (
     vehicle_id INT NOT NULL,
     current_driver_id INT NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
-    check_in DATETIME NOT NULL,
-    check_out DATETIME,
-    delay DECIMAL(10,2) NOT NULL,
-    fine DECIMAL(10,2) NOT NULL,
+    check_in TIME NOT NULL,
+    check_out TIME,
+    delay INT,
+    fine DECIMAL(10,2),
     status VARCHAR(255) NOT NULL,
     payment_status VARCHAR(255) NOT NULL,
-    booking_duration VARCHAR(255) NOT NULL,
+    booking_duration INT NOT NULL,
     FOREIGN KEY (parking_slot_id) REFERENCES parking_slots(id) ON DELETE CASCADE,
     FOREIGN KEY (vehicle_id) REFERENCES vehicles(id) ON DELETE CASCADE,
     FOREIGN KEY (current_driver_id) REFERENCES drivers(id) ON DELETE CASCADE

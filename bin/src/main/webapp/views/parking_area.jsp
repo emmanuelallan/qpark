@@ -1,8 +1,35 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <jsp:include page="/views/includes/navbar.jsp" />
 
 <%-- main start --%>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+        <c:if test="${not empty param.success}">
+            <div class="alert alert-success" role="alert">
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <p>
+                            ${
+                                param.success == 'create' ? 'Parking Area Created Successfully' :
+                                param.success == 'update' ? 'Parking Area Updated Successfully' :
+                                param.success == 'delete' ? 'Parking Area Deleted Successfully' :
+                                ''
+                            }
+                        </p>
+                    </div>
+                    <div class="flex-shrink-0 ms-3">
+                        <i class="bi bi-check-circle-fill fs-2 text-success"></i>
+                    </div>
+                </div>
+            </div>
+        </c:if>
+    </div>
+  </div>
+</div>
 <!-- admin header start -->
 <header>
   <div class="container">
@@ -54,78 +81,54 @@
           </tr>
           </thead>
           <tbody>
-          <tr>
-            <td>
-              <img
-                      alt="..."
-                      src="${pageContext.request.contextPath}/images/parking.jpg"
-                      class="avatar avatar-sm rounded-circle me-2"
-              />
-              <a class="text-heading font-semibold" href="#"
-              >Gate E. Student Center</a
-              >
-            </td>
-            <td>100</td>
-            <td>Chuka University</td>
-            <td>
-              Ksh. 200 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>
-                        <span class="badge badge-lg badge-dot">
-                          <i class="bg-success"></i>
-                          Open
-                        </span>
-            </td>
-            <td>
-              Ksh. 500 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>6:00 AM</td>
-            <td>6:00 PM</td>
-            <td>
-              <button class="btn btn-sm btn-outline-dark">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <img
-                      alt="..."
-                      src="${pageContext.request.contextPath}/images/parking.jpg"
-                      class="avatar avatar-sm rounded-circle me-2"
-              />
-              <a class="text-heading font-semibold" href="#"
-              >Gate A. Bussines Center</a
-              >
-            </td>
-            <td>50</td>
-            <td>Chuka University</td>
-            <td>
-              Ksh. 200 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>
-                        <span class="badge badge-lg badge-dot">
-                          <i class="bg-warning"></i>
-                          Full
-                        </span>
-            </td>
-            <td>
-              Ksh. 500 <span class="text-sm text-muted">/ Hour</span>
-            </td>
-            <td>6:00 AM</td>
-            <td>6:00 PM</td>
-            <td>
-              <button class="btn btn-sm btn-outline-dark">
-                <i class="bi bi-pencil"></i>
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class="bi bi-trash"></i>
-              </button>
-            </td>
-          </tr>
+          <c:if test="${parkingAreasList != null}">
+            <c:forEach var="parkingArea" items="${parkingAreasList}">
+              <tr>
+                <td>
+                  <img
+                          alt="..."
+                          src="${pageContext.request.contextPath}/uploads/${parkingArea.image}"
+                          class="avatar avatar-sm rounded-circle me-2"
+                  />
+                  <a class="text-heading font-semibold" href="#">${parkingArea.name}</a>
+                </td>
+                <td>${parkingArea.capacity}</td>
+                <td>${parkingArea.location}</td>
+                <td>Ksh. ${parkingArea.price}<span class="text-xs text-muted">/hr</span></td>
+                <td>
+                  <c:choose>
+                    <c:when test="${parkingArea.status eq 'Open'}">
+                      <span class="badge badge-lg badge-dot">
+                        <i class="bg-success"></i>
+                        ${parkingArea.status}
+                      </span>
+                    </c:when>
+                    <c:otherwise>
+                      <span class="badge badge-lg badge-dot">
+                        <i class="bg-danger"></i>
+                        ${parkingArea.status}
+                      </span>
+                    </c:otherwise>
+                  </c:choose>
+                </td>
+                <td>Ksh. ${parkingArea.fine}<span class="text-sm text-muted"></span></td>
+                <td><fmt:formatDate value="${parkingArea.openingTime}" pattern="hh:mm a" /></td>
+                <td><fmt:formatDate value="${parkingArea.closingTime}" pattern="hh:mm a" /></td>
+                <td class="d-flex">
+                  <a href="${pageContext.request.contextPath}/parking_area/edit?id=${parkingArea.id}"
+                     class="btn btn-sm btn-outline-dark me-1">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  <form action="${pageContext.request.contextPath}/parking_area/delete" method="post">
+                      <input type="hidden" name="id" value="${parkingArea.id}">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+                </td>
+              </tr>
+            </c:forEach>
+          </c:if>
           </tbody>
         </table>
       </div>

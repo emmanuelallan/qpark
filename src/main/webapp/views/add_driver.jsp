@@ -51,7 +51,7 @@
           <div class="col-md-6">
             <div>
               <label class="form-label" for="otp">One Time Password</label>
-              <input type="text" class="form-control" name="otp" id="otp" required />
+              <input type="password" class="form-control" name="otp" id="otp" required />
             </div>
           </div>
           <div class="col-md-12">

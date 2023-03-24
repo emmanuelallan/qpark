@@ -4,6 +4,7 @@ import com.qpark.DatabaseConnection;
 import com.qpark.dao.BookingDAO;
 import com.qpark.dao.DriverDAO;
 import com.qpark.dao.ParkingAreaDAO;
+import com.qpark.dao.ParkingSlotDAO;
 import com.qpark.model.Booking;
 import com.qpark.model.Driver;
 import com.qpark.model.ParkingArea;
@@ -21,6 +22,7 @@ import java.util.List;
 @WebServlet(name = "BookingsController", value = "/booking")
 public class BookingsController extends HttpServlet {
     private BookingDAO bookingDAO;
+    private ParkingSlotDAO parkingSlotDAO;
 
     public void init() throws ServletException {
         super.init();
@@ -28,6 +30,7 @@ public class BookingsController extends HttpServlet {
         try {
             Connection connection = DatabaseConnection.getConnection();
             bookingDAO = new BookingDAO(connection);
+            parkingSlotDAO = new ParkingSlotDAO(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -49,8 +52,10 @@ public class BookingsController extends HttpServlet {
         try {
             String status = request.getParameter("status");
             int id = Integer.parseInt(request.getParameter("bookingId"));
+            int parkingSlotId = Integer.parseInt(request.getParameter("parkingSlotId"));
 
             bookingDAO.updateStatus(id, status);
+            parkingSlotDAO.changeStatus(parkingSlotId, status);
             response.sendRedirect(request.getContextPath() + "/booking?id" + "&success=1");
         } catch (SQLException ex) {
             throw new ServletException(ex);
